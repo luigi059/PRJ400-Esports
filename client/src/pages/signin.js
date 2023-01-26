@@ -31,36 +31,33 @@ export default function SignIn() {
     <>
       <HeaderContainer>
         <Form>
-          <Form.Title>Sign In</Form.Title>
+          <Form.Base>
+            <Form.Title>Sign In</Form.Title>
 
-          <Form.Base onSubmit={handleSignin}>
-            <Form.Input
-              required
-              placeholder="Email address"
-              name="email"
-              onChange={onChangeInput}
-            />
-            <Form.Input
-              required
-              type="password"
-              autoComplete="off"
-              placeholder="Password"
-              name="password"
-              onChange={onChangeInput}
-            />
-            <Form.Submit type="submit" data-testid="sign-in">
-              Sign In
-            </Form.Submit>
+            <Form.InputGroup onSubmit={handleSignin}>
+              <Form.Input
+                required
+                placeholder="Email address"
+                name="email"
+                onChange={onChangeInput}
+              />
+              <Form.Input
+                required
+                type="password"
+                autoComplete="off"
+                placeholder="Password"
+                name="password"
+                onChange={onChangeInput}
+              />
+              <Form.Submit type="submit" data-testid="sign-in">
+                Sign In
+              </Form.Submit>
+            </Form.InputGroup>
+            <Form.Text>
+              New to the E-Sports Hub?{" "}
+              <Form.Link to="/signup">Sign up now.</Form.Link>
+            </Form.Text>
           </Form.Base>
-
-          <Form.Text>
-            New to the E-Sports Hub?{" "}
-            <Form.Link to="/signup">Sign up now.</Form.Link>
-          </Form.Text>
-          <Form.TextSmall>
-            This page is protected by Google reCAPTCHA to ensure you're not a
-            bot. Learn more.
-          </Form.TextSmall>
         </Form>
       </HeaderContainer>
     </>

@@ -3,18 +3,35 @@ import { Link as ReachRouterLink } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.75);
+  align-items: center;
+  justify-content: center;
   border-radius: 5px;
   margin: auto;
   height: calc(100vh - 10em);
+  width: 100%;
+`;
+
+export const Base = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  height: calc(100vh - 20em);
   width: calc(100vw - 20%);
 `;
 
-export const Base = styled.form`
+export const InputGroup = styled.form`
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  width: 100%;
+  padding: 0 1em;
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const Error = styled.div`
@@ -28,19 +45,16 @@ export const Error = styled.div`
 
 export const Title = styled.h1`
   color: #fff;
-  font-size: 32px;
+  font-size: 3em;
   font-weight: bold;
-  margin-bottom: 28px;
+  margin-bottom: 1.5em;
 `;
 
 export const Text = styled.p`
   color: #737373;
-  font-size: 16px;
   font-weight: 500;
-`;
-
-export const TextSmall = styled.p`
-  margin-top: 10px;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   font-size: 13px;
   line-height: normal;
   color: #8c8c8c;
@@ -59,26 +73,55 @@ export const Input = styled.input`
   border-radius: 4px;
   border: 0;
   color: #fff;
-  height: 50px;
-  line-height: 50px;
-  padding: 5px 20px;
-  margin-bottom: 20px;
+  height: 2.5em;
+  margin: 0 0 1em 0;
+  padding: 1em;
+  width: 100%;
+`;
+
+export const TwoInput = styled.input`
+  background: #333;
+  border-radius: 4px;
+  height: 2.5em;
+  margin: 0 0.5em 1em 0.5em;
+  padding: 1em;
+  color: #fff;
+  width: 100%;
+  &:first-of-type {
+    margin-left: 0;
+  }
   &:last-of-type {
-    margin-bottom: 30px;
+    margin-right: 0;
   }
 `;
 
 export const Submit = styled.button`
   background: #f806cc;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 1em;
   font-weight: bold;
-  margin: 24px 0 12px;
-  padding: 16px;
+  margin: 2em 0 0.8em;
+  padding: 1em;
   border: 0;
   color: white;
   cursor: pointer;
   &:disabled {
     opacity: 0.5;
+  }
+`;
+
+export const CheckBox = styled.input`
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 8px;
+  outline: none;
+  &:checked {
+    background-color: purple;
+  }
+  &:hover {
+    cursor: pointer;
   }
 `;

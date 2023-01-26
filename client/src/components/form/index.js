@@ -1,5 +1,18 @@
-import React from 'react';
-import { Container, Error, Base, Title, Text, TextSmall, Link, Input, Submit } from './styles/form';
+import React from "react";
+import {
+  Container,
+  Error,
+  InputGroup,
+  Row,
+  Base,
+  Title,
+  Text,
+  Link,
+  Input,
+  TwoInput,
+  Submit,
+  CheckBox,
+} from "./styles/form";
 
 export default function Form({ children, ...restProps }) {
   return <Container {...restProps}>{children}</Container>;
@@ -13,16 +26,20 @@ Form.Base = function FormBase({ children, ...restProps }) {
   return <Base {...restProps}>{children}</Base>;
 };
 
+Form.InputGroup = function FormInputGroup({ children, ...restProps }) {
+  return <InputGroup {...restProps}>{children}</InputGroup>;
+};
+
+Form.Row = function FormRow({ children, ...restProps }) {
+  return <Row {...restProps}>{children}</Row>;
+};
+
 Form.Title = function FormTitle({ children, ...restProps }) {
   return <Title {...restProps}>{children}</Title>;
 };
 
 Form.Text = function FormText({ children, ...restProps }) {
   return <Text {...restProps}>{children}</Text>;
-};
-
-Form.TextSmall = function FormTextSmall({ children, ...restProps }) {
-  return <TextSmall {...restProps}>{children}</TextSmall>;
 };
 
 Form.Link = function FormLink({ children, ...restProps }) {
@@ -35,4 +52,12 @@ Form.Input = function FormInput({ children, ...restProps }) {
 
 Form.Submit = function FormSubmit({ children, ...restProps }) {
   return <Submit {...restProps}>{children}</Submit>;
+};
+
+Form.TwoInput = function FormTwoInput({ children, ...restProps }) {
+  return <TwoInput {...restProps}>{children}</TwoInput>;
+};
+
+Form.CheckBox = function FormCheckBox({ children, ...restProps }) {
+  return <CheckBox {...restProps}>{children}</CheckBox>;
 };
