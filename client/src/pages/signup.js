@@ -8,10 +8,17 @@ import axios from "axios";
 export default function SignUp() {
   const history = useHistory();
   const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
+    dob: "",
+    nationality: "",
+    position: "",
+    discoverable: "",
   });
 
+  // Changes state on the fly
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -35,14 +42,21 @@ export default function SignUp() {
           <Form.Base onSubmit={handleSignUp}>
             <Form.Input
               required
-              placeholder="Name"
-              name="name"
-              value={user.name}
+              placeholder="First Name"
+              name="firstName"
+              value={user.firstName}
               onChange={onChangeInput}
             />
             <Form.Input
               required
-              placeholder="Email address"
+              placeholder="Last Name"
+              name="lastName"
+              value={user.lastName}
+              onChange={onChangeInput}
+            />
+            <Form.Input
+              required
+              placeholder="Email Address"
               name="email"
               value={user.email}
               onChange={onChangeInput}
@@ -56,18 +70,42 @@ export default function SignUp() {
               value={user.password}
               onChange={onChangeInput}
             />
-            <Form.Submit type="submit" data-testid="sign-up">
-              Sign Up
-            </Form.Submit>
+            <Form.Input
+              required
+              placeholder="Date of Birth"
+              name="dob"
+              value={user.dob}
+              onChange={onChangeInput}
+            />
+            <Form.Input
+              required
+              placeholder="Nationality"
+              name="nationality"
+              value={user.nationality}
+              onChange={onChangeInput}
+            />
+            <Form.Input
+              required
+              placeholder="Position"
+              name="position"
+              value={user.dob}
+              onChange={onChangeInput}
+            />
+            <Form.Input
+              required
+              placeholder="Discoverable"
+              name="discoverable"
+              value={user.dob}
+              onChange={onChangeInput}
+            />
           </Form.Base>
+          <Form.Submit type="submit" data-testid="sign-up">
+            Sign Up
+          </Form.Submit>
 
           <Form.Text>
             Already a user? <Form.Link to="/signin">Sign in now.</Form.Link>
           </Form.Text>
-          <Form.TextSmall>
-            This page is protected by Google reCAPTCHA to ensure you're not a
-            bot. Learn more.
-          </Form.TextSmall>
         </Form>
       </HeaderContainer>
     </>

@@ -6,11 +6,6 @@ import {
   ButtonLink,
   Logo,
   Group,
-  Link,
-  Feature,
-  FeatureCallOut,
-  Text,
-  PlayButton,
 } from "./styles/header";
 
 export default function Header({ bg = true, children, ...restProps }) {
@@ -41,27 +36,4 @@ Header.ButtonLink = function HeaderButtonLink({ children, ...restProps }) {
 
 Header.Group = function HeaderGroup({ children, ...restProps }) {
   return <Group {...restProps}>{children}</Group>;
-};
-
-Header.TextLink = function HeaderTextLink({ children, ...restProps }) {
-  return <Link {...restProps}>{children}</Link>;
-};
-
-Header.Feature = function HeaderFeature({ children }) {
-  return <Feature>{children}</Feature>;
-};
-
-Header.FeatureCallOut = function HeaderFeatureCallOut({
-  children,
-  ...restProps
-}) {
-  return <FeatureCallOut {...restProps}>{children}</FeatureCallOut>;
-};
-
-Header.Text = function HeaderText({ children, ...restProps }) {
-  return <Text {...restProps}>{children}</Text>;
-};
-
-Header.PlayButton = function HeaderPlayButton({ children, ...restProps }) {
-  return <PlayButton {...restProps}>{children}</PlayButton>;
 };

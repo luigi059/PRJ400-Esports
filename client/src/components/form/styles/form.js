@@ -4,14 +4,17 @@ import { Link as ReachRouterLink } from "react-router-dom";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 660px;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 5px;
-  width: 100%;
   margin: auto;
-  max-width: 450px;
-  padding: 60px 68px 40px;
-  margin-bottom: 100px;
+  height: calc(100vh - 10em);
+  width: calc(100vw - 20%);
+`;
+
+export const Base = styled.form`
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
 `;
 
 export const Error = styled.div`
@@ -21,13 +24,6 @@ export const Error = styled.div`
   margin: 0 0 16px;
   color: white;
   padding: 15px 20px;
-`;
-
-export const Base = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 450px;
-  width: 100%;
 `;
 
 export const Title = styled.h1`
