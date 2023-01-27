@@ -18,13 +18,13 @@ export default function SignIn() {
   };
 
   const handleSignin = async (event) => {
+    history.push(ROUTES.PROFILE);
     event.preventDefault();
-    try {
+    /*     try {
       await axios.post("http://localhost:5000/user/login", { ...user });
-      history.push(ROUTES.PROFILE);
     } catch (err) {
       alert(err.response.data.msg);
-    }
+    } */
   };
 
   return (

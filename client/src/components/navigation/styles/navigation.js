@@ -1,7 +1,6 @@
 import styled from "styled-components/macro";
 
 export const Container = styled.div`
-  height: 95vh;
   width: auto;
   display: flex;
   flex-direction: column;
@@ -10,10 +9,11 @@ export const Container = styled.div`
 `;
 
 export const Item = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 5px;
+  padding: 1em;
   padding-bottom: 0;
   border-bottom: 1px solid white;
   &:last-child {

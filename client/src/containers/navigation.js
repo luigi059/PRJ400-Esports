@@ -5,8 +5,6 @@ import feed from "../images/feed.svg";
 import inbox from "../images/inbox.svg";
 import team from "../images/team.svg";
 import search from "../images/search.svg";
-import schedule from "../images/schedule.svg";
-import contract from "../images/contract.svg";
 
 export default function NavigationContainer() {
   return (
@@ -28,20 +26,8 @@ export default function NavigationContainer() {
         <Navigation.Text> Team </Navigation.Text>
       </Navigation.Item>
       <Navigation.Item>
-        <Navigation.Logo src={home} alt="Home" />
-        <Navigation.Text> Home </Navigation.Text>
-      </Navigation.Item>
-      <Navigation.Item>
         <Navigation.Logo src={search} alt="Search" />
         <Navigation.Text> Search </Navigation.Text>
-      </Navigation.Item>
-      <Navigation.Item>
-        <Navigation.Logo src={schedule} alt="Schedule" />
-        <Navigation.Text> Schedule </Navigation.Text>
-      </Navigation.Item>
-      <Navigation.Item>
-        <Navigation.Logo src={contract} alt="Contract" />
-        <Navigation.Text> Contract </Navigation.Text>
       </Navigation.Item>
     </Navigation>
   );
