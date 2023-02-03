@@ -23,16 +23,16 @@ export const Item = styled.div`
 `;
 
 export const Logo = styled.img`
-  height: 25px;
-  width: 25px;
+  height: 4em;
+  width: 4em;
   filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(187deg)
     brightness(99%) contrast(103%);
-  padding: 3px;
+  padding: 0.5em;
 `;
 
 export const Text = styled.p`
   color: white;
-  font-size: 12px;
+  font-size: 2em;
   text-align: center;
   line-height: normal;
   padding: 3px;

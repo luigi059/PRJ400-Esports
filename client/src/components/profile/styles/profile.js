@@ -1,44 +1,7 @@
 import styled from "styled-components/macro";
 
-export const Background = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-  height: 100vh;
-  background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.35),
-      rgba(0, 0, 0, 0.35),
-      rgba(0, 0, 0, 0.35)
-    ),
-    url(${({ src }) =>
-        src ? `../images/misc/${src}.jpg` : "../images/misc/bg-lg.svg"})
-      top left / cover no-repeat;
-`;
+export const Container = styled.div``;
 
-export const Left = styled.div`
-  display: grid;
-  grid-template-rows: 2fr 1fr;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const Right = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const RightBase = styled.div`
-  height: 94%;
-  width: 96%;
-  background-color: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-  display: grid;
-  grid-template-row: 1fr;
-  padding: 2em;
-`;
-
-// To be Refactored
 export const FirstProfile = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;

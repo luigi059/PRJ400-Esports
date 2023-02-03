@@ -19,6 +19,9 @@ import {
   Text,
   Rating,
   RatingSection,
+  RatingSubSection,
+  RatingText,
+  InboxSection,
 } from "./styles/bg";
 
 export default function MainDisplay({ bg = true, children, ...restProps }) {
@@ -113,9 +116,27 @@ MainDisplay.Text = function MainDisplayText({ children, ...restProps }) {
 MainDisplay.Rating = function MainDisplayRating({ children, ...restProps }) {
   return <Rating {...restProps}>{children}</Rating>;
 };
-MainDisplay.RatingSection = function MainDisplayRating({
+MainDisplay.RatingSection = function MainDisplayRatingSection({
   children,
   ...restProps
 }) {
   return <RatingSection {...restProps}>{children}</RatingSection>;
+};
+MainDisplay.RatingSubSection = function MainDisplayRatingSubSection({
+  children,
+  ...restProps
+}) {
+  return <RatingSubSection {...restProps}>{children}</RatingSubSection>;
+};
+MainDisplay.RatingText = function MainDisplayRatingText({
+  children,
+  ...restProps
+}) {
+  return <RatingText {...restProps}>{children}</RatingText>;
+};
+MainDisplay.InboxSection = function MainDisplayInboxSection({
+  children,
+  ...restProps
+}) {
+  return <InboxSection {...restProps}>{children}</InboxSection>;
 };

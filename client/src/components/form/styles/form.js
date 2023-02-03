@@ -18,7 +18,9 @@ export const Base = styled.div`
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.75);
   height: calc(100vh - 20em);
-  width: calc(100vw - 20%);
+  /*   width: calc(100vw - 0%); */
+  width: 40em;
+  border-radius: 8px;
 `;
 
 export const InputGroup = styled.form`
