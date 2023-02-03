@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-/* import { useHistory } from "react-router-dom"; */
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import { Form } from "../components";
 import HeaderContainer from "../containers/header";
+import * as ROUTES from "../constants/routes";
 
 export default function SignUp() {
-  /*   const history = useHistory(); */
+  const history = useHistory();
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -31,13 +33,13 @@ export default function SignUp() {
   const handleSignUp = async (event) => {
     event.preventDefault();
     console.log(user);
-    console.log(typeof user.dob);
-    /*     try {
+    if (user.discoverable === "") setUser({ ...user, discoverable: false });
+    try {
       await axios.post("http://localhost:5000/user/register", { ...user });
       history.push(ROUTES.PROFILE);
     } catch (err) {
       alert(err.response.data.msg);
-    } */
+    }
   };
   return (
     <>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 import { Form } from "../components";
 import HeaderContainer from "../containers/header";
 import * as ROUTES from "../constants/routes";
-import axios from "axios";
 
 export default function SignIn() {
   const history = useHistory();
@@ -20,11 +20,11 @@ export default function SignIn() {
   const handleSignin = async (event) => {
     history.push(ROUTES.PROFILE);
     event.preventDefault();
-    /*     try {
+    try {
       await axios.post("http://localhost:5000/user/login", { ...user });
     } catch (err) {
       alert(err.response.data.msg);
-    } */
+    }
   };
 
   return (

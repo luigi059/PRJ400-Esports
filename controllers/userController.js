@@ -4,10 +4,29 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      dob,
+      nationality,
+      position,
+      discoverable,
+    } = req.body;
     // 1) validation
-    if (!name || !email || !password)
-      return res.status(400).json({ msg: "Not all fields have been entered." });
+    console.log(req.body);
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !password ||
+      !dob ||
+      !nationality ||
+      !position ||
+      discoverable == undefined
+    )
+      return res.status(400).json({ msg: "All Fields Required" });
     // 2) Check if existing user exists
     const existingUser = await User.findOne({ email });
     if (existingUser)
@@ -20,7 +39,17 @@ exports.register = async (req, res) => {
     // 4) Password Encryption
     const passwordHash = await bcrypt.hash(password, 10);
     // 5) if everything is ok, create a new user and save to mongoDB
-    const newUser = new User({ name, email, password: passwordHash });
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: passwordHash,
+      dob,
+      nationality,
+      position,
+      discoverable,
+    });
+    console.log(newUser);
     await newUser.save();
     // Then create jsonwebtoken for authentication
     const accessToken = createAccessToken({ id: newUser._id });
@@ -33,9 +62,6 @@ exports.register = async (req, res) => {
 
     const user = { newUser, refreshToken };
 
-    console.log(user);
-    console.log(refreshToken);
-
     res.json({ user });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -45,13 +71,15 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(req.body);
     // 1) validation
     if (!email || !password)
-      return res.status(400).json({ msg: "Not all fields have been entered." });
+      return res.status(400).json({ msg: "All Fields Required" });
     // 2) Check if existing user exists
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "User does not exist!" });
     // 3) Password validation
+    console.log(user);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Wrong password!" });
 
@@ -63,6 +91,9 @@ exports.login = async (req, res) => {
       httpOnly: true,
       path: "/user/refresh_token",
     });
+
+    console.log(user);
+
     res.json({ accessToken });
   } catch (err) {
     res.status(500).json({ error: err.message });
