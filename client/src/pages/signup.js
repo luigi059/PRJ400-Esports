@@ -8,8 +8,7 @@ import * as ROUTES from "../constants/routes";
 export default function SignUp() {
   const history = useHistory();
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     password: "",
     dob: "",
@@ -35,7 +34,12 @@ export default function SignUp() {
     console.log(user);
     if (user.discoverable === "") setUser({ ...user, discoverable: false });
     try {
-      await axios.post("http://localhost:5000/user/register", { ...user });
+      const res = axios.post("http://localhost:5000/user/register", {
+        ...user,
+      });
+
+      localStorage.setItem("token", (await res).data.accessToken);
+
       history.push(ROUTES.PROFILE);
     } catch (err) {
       alert(err.response.data.msg);
@@ -48,22 +52,13 @@ export default function SignUp() {
           <Form.Base>
             <Form.Title>Sign Up</Form.Title>
             <Form.InputGroup onSubmit={handleSignUp}>
-              <Form.Row>
-                <Form.TwoInput
-                  required
-                  placeholder="First Name"
-                  name="firstName"
-                  value={user.firstName}
-                  onChange={onChangeInput}
-                />
-                <Form.TwoInput
-                  required
-                  placeholder="Last Name"
-                  name="lastName"
-                  value={user.lastName}
-                  onChange={onChangeInput}
-                />
-              </Form.Row>
+              <Form.Input
+                required
+                placeholder="Name"
+                name="name"
+                value={user.name}
+                onChange={onChangeInput}
+              />
               <Form.Input
                 required
                 placeholder="Email Address"

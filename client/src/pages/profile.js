@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { GlobalState } from "../GlobalState";
 import NavigationContainer from "../containers/navigation";
 import { MainDisplay, Profile } from "../components";
 import miracle from "../images/miracle.jfif";
@@ -7,6 +8,10 @@ import twitch from "../images/twitch.png";
 import team from "../images/team.jpg";
 
 export default function ProfilePage() {
+  const state = useContext(GlobalState);
+  const [isLogged] = state.userApi.isLogged;
+  const [userData] = state.userApi.user;
+
   const [ytLink] = useState(
     "https://www.youtube.com/channel/UCqmJgdqMIWlrGCUdlEZBawg"
   );
@@ -18,6 +23,8 @@ export default function ProfilePage() {
   const twitchHandleClick = () => {
     window.location.href = twitchLink;
   };
+
+  console.log(state);
 
   return (
     <>
@@ -34,15 +41,15 @@ export default function ProfilePage() {
               </Profile.PlayerImgContainer>
               <Profile.InfoSection>
                 <Profile.InfoTitle>INFO</Profile.InfoTitle>
-                <Profile.Text>Amer Al-Barkawi</Profile.Text>
-                <Profile.Text>25 years old</Profile.Text>
-                <Profile.Text>Position 2</Profile.Text>
+                <Profile.Text>{userData.name}</Profile.Text>
+                <Profile.Text>Date of Birth: {userData.dob}</Profile.Text>
+                <Profile.Text>{userData.position}</Profile.Text>
               </Profile.InfoSection>
               <Profile.InfoSection>
-                <Profile.InfoTitle>TEAM INFO</Profile.InfoTitle>
+                <Profile.InfoTitle>MISC INFO</Profile.InfoTitle>
+                <Profile.Text>{userData.nationality}</Profile.Text>
                 <Profile.Text>Contracted To</Profile.Text>
                 <Profile.Text>Nigma Galaxy</Profile.Text>
-                <Profile.Text>Europe</Profile.Text>
               </Profile.InfoSection>
             </Profile.FirstProfile>
 
