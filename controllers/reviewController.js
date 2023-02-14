@@ -4,7 +4,6 @@ const createReview = async (req, res) => {
   console.log("Welcome to Create Review");
   try {
     const {
-      reviewer,
       reviewee,
       content,
       leadership,
@@ -15,7 +14,7 @@ const createReview = async (req, res) => {
       farming,
     } = req.body;
     const newReview = new Review({
-      reviewer,
+      reviewer: req.user.id,
       reviewee,
       content,
       leadership,
@@ -58,4 +57,22 @@ const getOwnReviews = async (req, res) => {
   }
 };
 
-export default { createReview, getReviews, getOwnReviews };
+const deleteReview = async (req, res) => {
+  console.log("Welcome to Delete Review");
+  const { revieweeId } = req.params;
+  console.log(revieweeId);
+  console.log(req.user.id);
+  try {
+    const review = await Review.deleteOne({
+      reviewer: req.user.id,
+      reviewee: revieweeId,
+    });
+    if (!review) return res.status(400).json({ msg: "No Reviews Exist" });
+
+    res.json("Successfully Deleted");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export default { createReview, getReviews, getOwnReviews, deleteReview };
