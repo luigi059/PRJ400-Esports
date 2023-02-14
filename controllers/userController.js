@@ -1,8 +1,8 @@
-const User = require("../models/userModel");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import User from "../models/userModel.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
   console.log("Welcome to Register");
   try {
     const { name, email, password, dob, nationality, position, discoverable } =
@@ -55,7 +55,7 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   console.log("Welcome to LogIn");
   try {
     const { email, password } = req.body;
@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
 };
 
 // Getting User Info
-exports.getUser = async (req, res) => {
+const getUser = async (req, res) => {
   console.log("Welcome to GetUsers");
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -98,7 +98,7 @@ exports.getUser = async (req, res) => {
 };
 
 // Logout
-exports.logout = async (req, res) => {
+const logout = async (req, res) => {
   try {
     res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
     return res.json({ msg: "Logged out successfully!" });
@@ -108,7 +108,7 @@ exports.logout = async (req, res) => {
 };
 
 // Authentication via cookies
-exports.refreshToken = (req, res) => {
+const refreshToken = (req, res) => {
   console.log("Welcome to refreshToken");
   try {
     const rf_token = req.cookies.refreshtoken;
@@ -132,3 +132,5 @@ const createAccessToken = (user) => {
 const createRefreshToken = (user) => {
   return jwt.sign(user, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
 };
+
+export default { register, login, getUser, logout, refreshToken };
