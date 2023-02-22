@@ -8,4 +8,5 @@ export { default as Navbar } from './navbar';
 export { default as Navigation } from './navigation';
 export { default as OptForm } from './opt-form';
 export { default as Profile } from './profile';
+export { default as SmallBox } from './smallbox';
 export { default as Title } from './title';
