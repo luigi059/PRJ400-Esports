@@ -1,7 +1,5 @@
 import {
 	ArrowDropDownOutlined,
-	DarkModeOutlined,
-	LightModeOutlined,
 	Menu as MenuIcon,
 	Search,
 	SettingsOutlined,

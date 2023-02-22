@@ -5,7 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components';
 // import * as ROUTES from './constants/routes';
 // import { DataProvider } from './GlobalState';
-import { Dashboard } from './pages';
+import { Dashboard, Home, SignIn, SignUp } from './pages';
 
 export default function App() {
 	const colours = {
@@ -105,8 +105,10 @@ export default function App() {
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/signin" element={<SignIn />} />
+						<Route path="/signup" element={<SignUp />} />
 						<Route element={<Layout />}>
-							<Route path="/" element={<Navigate to="/profile" replace />} />
 							<Route path="/profile" element={<Dashboard />} />
 						</Route>
 					</Routes>
