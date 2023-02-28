@@ -17,10 +17,9 @@ export default function UserAPI(token) {
 		if (token) {
 			const getUser = async () => {
 				try {
-					const res = await axios.get('http://localhost:5000/user/info', {
+					const res = await axios.get('http://localhost:5000/api/user/info', {
 						headers: { Authorization: token },
 					});
-					console.log(res.data);
 					updateUserData(res.data);
 					setIsLogged(true);
 				} catch (err) {

@@ -1,18 +1,9 @@
-import {
-	Avatar,
-	Box,
-	Typography,
-	useMediaQuery,
-	useTheme,
-} from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import { FlexBetween, SmallBox, Title } from '../components';
-import Twitch from '../images/twitch.png';
-import Youtube from '../images/youtube.png';
 
 const Dashboard = () => {
 	const theme = useTheme();
-	const isNonMediumScreens = useMediaQuery('(min-width: 1200px)');
 
 	return (
 		<Box m="1.5rem 2.5rem">
@@ -39,10 +30,6 @@ const Dashboard = () => {
 					<Typography variant="h4" sx={{ color: theme.palette.secondary[200] }}>
 						Media
 					</Typography>
-					<FlexBetween>
-						<img src={Youtube} alt=" description" />
-						<img src={Twitch} alt=" description" />
-					</FlexBetween>
 				</Box>
 			</Box>
 		</Box>

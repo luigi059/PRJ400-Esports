@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
 import UserAPI from './api/user';
 
@@ -10,10 +9,9 @@ export const DataProvider = ({ children }) => {
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 		if (token) {
-			console.log(token);
 			setToken(token);
 		}
-	}, []);
+	}, [token]);
 
 	const state = {
 		token: [token, setToken],

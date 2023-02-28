@@ -1,11 +1,9 @@
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { Layout } from './components';
-// import * as ROUTES from './constants/routes';
-// import { DataProvider } from './GlobalState';
-import { Dashboard, Home, SignIn, SignUp } from './pages';
+import { BrowserRouter } from 'react-router-dom';
+import { DataProvider } from './GlobalState';
+import Pages from './pages/main';
 
 export default function App() {
 	const colours = {
@@ -100,21 +98,14 @@ export default function App() {
 	});
 	return (
 		<div className="App">
-			{/* <DataProvider> */}
-			<BrowserRouter>
-				<ThemeProvider theme={theme}>
-					<CssBaseline />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/signin" element={<SignIn />} />
-						<Route path="/signup" element={<SignUp />} />
-						<Route element={<Layout />}>
-							<Route path="/profile" element={<Dashboard />} />
-						</Route>
-					</Routes>
-				</ThemeProvider>
-			</BrowserRouter>
-			{/* 			</DataProvider> */}
+			<DataProvider>
+				<BrowserRouter>
+					<ThemeProvider theme={theme}>
+						<CssBaseline />
+						<Pages />
+					</ThemeProvider>
+				</BrowserRouter>
+			</DataProvider>
 		</div>
 	);
 }

@@ -16,6 +16,7 @@ import {
 	Typography,
 	useTheme,
 } from '@mui/material';
+import axios from 'axios';
 import React, { useState } from 'react';
 import profileImage from '../images/miracle.jfif';
 import FlexBetween from './flexbetween';
@@ -26,7 +27,12 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const isOpen = Boolean(anchorEl);
 	const handleClick = (event) => setAnchorEl(event.currentTarget);
-	const handleClose = () => setAnchorEl(null);
+	const handleClose = async () => {
+		setAnchorEl(null);
+		await axios.get('http://localhost:5000/api/user/logout');
+		localStorage.removeItem('token');
+		window.location.href = '/';
+	};
 
 	return (
 		<AppBar
