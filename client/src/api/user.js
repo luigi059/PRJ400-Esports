@@ -3,15 +3,7 @@ import { useEffect, useState } from 'react';
 
 export default function UserAPI(token) {
 	const [isLogged, setIsLogged] = useState(false);
-	const [user, setUser] = useState({
-		name: '',
-		email: '',
-		password: '',
-		dob: '',
-		nationality: '',
-		position: '',
-		discoverable: '',
-	});
+	const [user, setUser] = useState({});
 
 	useEffect(() => {
 		if (token) {
