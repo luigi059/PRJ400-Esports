@@ -3,6 +3,7 @@ export { default as FlexBetween } from './flexbetween';
 export { default as Form } from './form';
 export { default as Header } from './header';
 export { default as Layout } from './layout';
+export { default as Loading } from './loading/loading';
 export { default as Navbar } from './navbar';
 export { default as OptForm } from './opt-form';
 export { default as SmallBox } from './smallbox';

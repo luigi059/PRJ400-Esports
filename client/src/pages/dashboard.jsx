@@ -1,7 +1,7 @@
 import { Box, Button, Rating, Typography, useTheme } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FlexBetween, SmallBox, Title } from '../components';
+import { FlexBetween, Loading, SmallBox, Title } from '../components';
 import * as ROUTES from '../constants/routes';
 import { GlobalState } from '../GlobalState';
 
@@ -10,12 +10,17 @@ const Dashboard = () => {
 	const state = useContext(GlobalState);
 	const [user] = state.userApi.user;
 	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		console.log(state);
-	}, []);
+		if (user.userInfo) {
+			setIsLoading(false);
+		}
+	}, [user]);
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<Box m="1.5rem 2.5rem">
 			<FlexBetween>
 				<Title title="DASHBOARD" subtitle="Welcome To Your Dashboard" />

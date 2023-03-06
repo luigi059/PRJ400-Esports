@@ -26,7 +26,7 @@ export default function SignIn() {
 
 			localStorage.setItem('token', (await res).data.accessToken);
 
-			navigate(ROUTES.PROFILE);
+			window.location.href = ROUTES.PROFILE;
 		} catch (err) {
 			alert(err.response.data.msg);
 		}
