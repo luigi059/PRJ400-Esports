@@ -1,12 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Form } from '../components';
 import * as ROUTES from '../constants/routes';
 import HeaderContainer from '../containers/header';
 
 export default function SignIn() {
-	const navigate = useNavigate();
 	const [user, setUser] = useState({
 		email: '',
 		password: '',

@@ -6,11 +6,20 @@ import User from '../models/userModel.js';
 const register = async (req, res) => {
 	console.log('Welcome to Register');
 	try {
-		const { name, email, password, dob, nationality, position, discoverable } =
-			req.body;
+		const {
+			name,
+			username,
+			email,
+			password,
+			dob,
+			nationality,
+			position,
+			discoverable,
+		} = req.body;
 		// 1) validation
 		if (
 			!name ||
+			!username ||
 			!email ||
 			!password ||
 			!dob ||
@@ -33,6 +42,7 @@ const register = async (req, res) => {
 		// 5) if everything is ok, create a new user and save to mongoDB
 		const newUser = new User({
 			name,
+			username,
 			email,
 			password: passwordHash,
 			dob,
