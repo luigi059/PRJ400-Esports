@@ -17,21 +17,39 @@ import {
 	useTheme,
 } from '@mui/material';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { GlobalState } from '../GlobalState';
 import profileImage from '../images/miracle.jfif';
 import FlexBetween from './flexbetween';
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const theme = useTheme();
-
+	const state = useContext(GlobalState);
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [search, setSearch] = state.searchAPI.search;
+	const [searchTerm, setSearchTerm] = useState('');
 	const isOpen = Boolean(anchorEl);
+
 	const handleClick = (event) => setAnchorEl(event.currentTarget);
 	const handleClose = async () => {
 		setAnchorEl(null);
 		await axios.get('http://localhost:5000/api/user/logout');
 		localStorage.removeItem('token');
 		window.location.href = '/';
+	};
+
+	const onChangeInput = (e) => {
+		setSearchTerm(e.target.value);
+	};
+
+	const searchSubmit = async (e) => {
+		e.preventDefault();
+		setSearch(searchTerm);
+		/* 		try {
+			await axios.get('http://localhost:5000/api/user/logout');
+		} catch (err) {
+			alert(err.response.data.msg);
+		} */
 	};
 
 	return (
@@ -59,19 +77,26 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 						gap="3rem"
 						p="0.1rem 1.5rem"
 					>
-						<InputBase
-							placeholder="Search..."
-							sx={{
-								color: theme.palette.secondary[300],
-							}}
-						/>
-						<IconButton
-							sx={{
-								color: theme.palette.secondary[300],
-							}}
-						>
-							<Search />
-						</IconButton>
+						<form onSubmit={searchSubmit}>
+							<InputBase
+								type="text"
+								autoComplete="off"
+								name="search"
+								placeholder="Search For Players..."
+								onChange={onChangeInput}
+								sx={{
+									color: theme.palette.secondary[300],
+								}}
+							/>
+							<IconButton
+								onClick={searchSubmit}
+								sx={{
+									color: theme.palette.secondary[300],
+								}}
+							>
+								<Search />
+							</IconButton>
+						</form>
 					</FlexBetween>
 				</FlexBetween>
 

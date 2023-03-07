@@ -31,7 +31,7 @@ const miniSearch = async (req, res) => {
 		res.json({
 			status: 'success',
 			result: user.length,
-			products: user,
+			players: user,
 		});
 	} catch (err) {
 		res.status(500).json({ error: err.message });
