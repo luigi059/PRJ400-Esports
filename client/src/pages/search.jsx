@@ -1,19 +1,22 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as ROUTES from '../constants/routes';
 import { GlobalState } from '../GlobalState';
 
 function Search() {
 	const theme = useTheme();
+	const navigate = useNavigate();
 	const state = useContext(GlobalState);
 
 	const [search, setSearch] = state.searchAPI.search;
 	const [players, setPlayers] = state.searchAPI.players;
 	const [searchTerm, setSearchTerm] = useState('');
 
-	useEffect(() => {
-		console.log(players);
-	}, []);
+	const handleRowClick = (params) => {
+		navigate(`/profile/${params.id}`);
+	};
 
 	const columns = [
 		{ field: 'name', headerName: 'Name', flex: 1 },
@@ -107,6 +110,7 @@ function Search() {
 					}}
 				>
 					<DataGrid
+						onRowClick={handleRowClick}
 						getRowId={(players) => players._id}
 						rows={players || []}
 						columns={columns}

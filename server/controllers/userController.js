@@ -105,9 +105,15 @@ const getUser = async (req, res) => {
 		technicalAvg,
 		farmingAvg;
 	try {
-		const user = await User.findById(req.user.id).select('-password');
+		let userID;
+		if (req.params.userID !== 'none') {
+			userID = req.params.userID;
+		} else {
+			userID = req.user.id;
+		}
+		const user = await User.findById(userID).select('-password');
 		if (!user) return res.status(400).json({ msg: 'User does not exist!' });
-		const reviews = await Review.find({ reviewee: req.user.id });
+		const reviews = await Review.find({ reviewee: userID });
 		if (reviews) {
 			leadershipAvg =
 				reviews.reduce((a, b) => a + b.leadership, 0) / reviews.length;

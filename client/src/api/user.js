@@ -9,9 +9,12 @@ export default function UserAPI(token) {
 		if (token) {
 			const getUser = async () => {
 				try {
-					const res = await axios.get('http://localhost:5000/api/user/info', {
-						headers: { Authorization: token },
-					});
+					const res = await axios.get(
+						'http://localhost:5000/api/user/info/none',
+						{
+							headers: { Authorization: token },
+						}
+					);
 					updateUserData(res.data);
 					setIsLogged(true);
 				} catch (err) {
