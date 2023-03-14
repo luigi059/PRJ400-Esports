@@ -18,15 +18,19 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as ROUTES from '../constants/routes';
 import { GlobalState } from '../GlobalState';
 import profileImage from '../images/miracle.jfif';
 import FlexBetween from './flexbetween';
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const theme = useTheme();
+	const navigate = useNavigate();
 	const state = useContext(GlobalState);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [search, setSearch] = state.searchAPI.search;
+	const [players, setPlayers] = state.searchAPI.players;
 	const [searchTerm, setSearchTerm] = useState('');
 	const isOpen = Boolean(anchorEl);
 
@@ -45,11 +49,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const searchSubmit = async (e) => {
 		e.preventDefault();
 		setSearch(searchTerm);
-		/* 		try {
-			await axios.get('http://localhost:5000/api/user/logout');
-		} catch (err) {
-			alert(err.response.data.msg);
-		} */
+		navigate(ROUTES.SEARCH);
 	};
 
 	return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from '../components';
-import { Dashboard, Home, Review, SignIn, SignUp } from '../pages';
+import { Dashboard, Home, Review, Search, SignIn, SignUp } from '../pages';
 
 function Pages() {
 	return (
@@ -12,6 +12,7 @@ function Pages() {
 			<Route element={<Layout />}>
 				<Route path="/profile" element={<Dashboard />} />
 				<Route path="/reviews" element={<Review />} />
+				<Route path="/search" element={<Search />} />
 			</Route>
 		</Routes>
 	);

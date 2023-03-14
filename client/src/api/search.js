@@ -21,7 +21,7 @@ export default function SearchAPI() {
 			const res = await axios.get(
 				`http://localhost:5000/api/search/minisearch?username[regex]=${search}`
 			);
-			console.log(res.data);
+			setPlayers(res.data.players);
 		};
 		getProducts();
 	}, [search]);
