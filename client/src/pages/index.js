@@ -1,7 +1,10 @@
 export { default as Dashboard } from './dashboard';
+export { default as Feed } from './feed';
 export { default as Home } from './home';
+export { default as Inbox } from './inbox';
 export { default as Review } from './review';
 export { default as Search } from './search';
 export { default as SelectedProfile } from './selectedProfile';
 export { default as SignIn } from './signin';
 export { default as SignUp } from './signup';
+export { default as Team } from './team';

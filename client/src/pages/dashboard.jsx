@@ -32,7 +32,7 @@ const Dashboard = () => {
 					second="25 years old"
 					third={user.userInfo.user.position}
 				/>
-				<SmallBox title="Team Info" first="Nigma Galaxy" second="Europe" />
+				<SmallBox title="Team Info" second="No Team" third="" />
 				<SmallBox title="Feed" first="" second="No New Feed" third="" />
 				<SmallBox title="Inbox" first="" second="No New Messages" third="" />
 			</Box>

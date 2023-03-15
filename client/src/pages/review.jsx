@@ -6,7 +6,7 @@ import {
 	Rating,
 	Select,
 	Typography,
-	useTheme
+	useTheme,
 } from '@mui/material';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
@@ -25,10 +25,7 @@ function Review() {
 		if (!ownReview) {
 			try {
 				const res = await axios.get(
-					`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`,
-					{
-						headers: { Authorization: token },
-					}
+					`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
 				);
 				console.log(res.data);
 				setReviews(res.data);
@@ -159,6 +156,13 @@ function Review() {
 						>
 							<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
 								{review.content}
+							</Typography>
+							<Typography
+								marginTop="1rem"
+								variant="h6"
+								sx={{ color: theme.palette.neutral[0] }}
+							>
+								By: {review.reviewer}
 							</Typography>
 						</Box>
 					</Box>
