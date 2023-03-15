@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 
-const Title = ({ title, subtitle }) => {
+const Title = ({ title, subtitle, player }) => {
 	const theme = useTheme();
 	return (
 		<Box>

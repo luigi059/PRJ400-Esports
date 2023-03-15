@@ -6,11 +6,11 @@ import {
 	Rating,
 	Select,
 	Typography,
-	useTheme,
+	useTheme
 } from '@mui/material';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { FlexBetween, SmallBox, Title } from '../components';
+import { FlexBetween, Title } from '../components';
 import { GlobalState } from '../GlobalState';
 
 function Review() {

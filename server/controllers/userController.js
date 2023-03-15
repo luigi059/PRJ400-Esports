@@ -105,6 +105,7 @@ const getUser = async (req, res) => {
 		technicalAvg,
 		farmingAvg;
 	try {
+		console.log('Welcome to userinfo');
 		let userID;
 		if (req.params.userID !== 'none') {
 			userID = req.params.userID;
