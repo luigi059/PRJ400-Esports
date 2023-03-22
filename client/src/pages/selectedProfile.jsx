@@ -16,13 +16,16 @@ import {
 	useTheme,
 } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FlexBetween, Loading, SmallBox, Title } from '../components';
+import { GlobalState } from '../GlobalState';
 
 function SelectedProfile() {
 	const theme = useTheme();
 	const params = useParams();
+	const state = useContext(GlobalState);
+	const [user] = state.userApi.user;
 	const [player, setPlayer] = useState({});
 	const [reviews, setReviews] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
@@ -97,13 +100,30 @@ function SelectedProfile() {
 		setOpenReview(false);
 	};
 	const submitReview = () => {
-		console.log(leadership);
-		console.log(drafting);
-		console.log(knowledge);
-		console.log(versatility);
-		console.log(technical);
-		console.log(farming);
-		console.log(reviewContent);
+		const newReview = {
+			reviewee: player.user._id,
+			reviewer: user.userInfo.user.username,
+			content: reviewContent,
+			leadership: parseInt(leadership),
+			drafting: parseInt(drafting),
+			knowledge: parseInt(knowledge),
+			versatility: parseInt(versatility),
+			technical: parseInt(technical),
+			farming: parseInt(farming),
+		};
+		try {
+			axios.post(
+				'http://localhost:5000/api/review/create',
+				{
+					...newReview,
+				},
+				{ headers: { Authorization: token } }
+			);
+		} catch (err) {
+			alert(err.response.data.msg);
+		}
+		setOpenReview(false);
+		getReviews();
 	};
 
 	return isLoading ? (
@@ -405,7 +425,18 @@ function SelectedProfile() {
 					);
 				})}
 			<Box>
-				<Dialog open={openReview} onClose={closeReview}>
+				<Dialog
+					open={openReview}
+					onClose={closeReview}
+					sx={{
+						'& .MuiDialog-container': {
+							'& .MuiPaper-root': {
+								width: '100%',
+								maxWidth: '700px', // Set your width here
+							},
+						},
+					}}
+				>
 					<DialogTitle>Create Review</DialogTitle>
 					<DialogContent>
 						<DialogContentText>

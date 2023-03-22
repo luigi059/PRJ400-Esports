@@ -2,6 +2,7 @@ import Review from '../models/reviewModel.js';
 
 const createReview = async (req, res) => {
 	console.log('Welcome to Create Review');
+	console.log(req.user);
 	try {
 		const {
 			reviewee,
