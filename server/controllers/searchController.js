@@ -12,6 +12,7 @@ class SearchParameters {
 		let queryStr = JSON.stringify(queryObj);
 		// adds the character $ to all the fields below
 		queryStr = queryStr.replace(/\b(regex)\b/g, (match) => '$' + match);
+		console.log(queryStr);
 		// Converts it to JSON for filtering
 		this.query.find(JSON.parse(queryStr));
 		return this;

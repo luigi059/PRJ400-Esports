@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function SearchAPI() {
 	const [players, setPlayers] = useState([]);
-	const [search, setSearch] = useState('');
+	const [search, setSearch] = useState('username[regex]=');
 
 	const useDidMountEffect = (func, deps) => {
 		const didMount = useRef(false);
@@ -19,7 +19,7 @@ export default function SearchAPI() {
 	useDidMountEffect(() => {
 		const getProducts = async () => {
 			const res = await axios.get(
-				`http://localhost:5000/api/search/minisearch?username[regex]=${search}`
+				`http://localhost:5000/api/search/minisearch?${search}`
 			);
 			setPlayers(res.data.players);
 		};
