@@ -136,6 +136,11 @@ const getUser = async (req, res) => {
 					farmingAvg) /
 				6;
 		}
+		const today = new Date();
+		const date = new Date(user.dob);
+		var ageDate = new Date(today - date);
+		user.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
+		console.log(typeof parseInt(Math.abs(ageDate.getUTCFullYear() - 1970)));
 		const userInfo = {
 			userInfo: {
 				user,

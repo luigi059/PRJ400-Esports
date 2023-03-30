@@ -6,6 +6,7 @@ import {
 	InputBase,
 	Menu,
 	MenuItem,
+	Rating,
 	Typography,
 	useTheme,
 } from '@mui/material';
@@ -34,6 +35,7 @@ function Search() {
 	const [isNationality, setIsNationality] = useState(false);
 	const [nationality, setNationality] = useState('');
 	const [isTeam, setIsTeam] = useState(false);
+	const [isVersatility, setIsVersatility] = useState(false);
 	const [team, setTeam] = useState('');
 
 	const handleRowClick = (params) => {
@@ -68,6 +70,9 @@ function Search() {
 			case 6:
 				setIsTeam(true);
 				break;
+			case 7:
+				setIsVersatility(true);
+				break;
 			default:
 				return;
 		}
@@ -97,6 +102,9 @@ function Search() {
 			case 6:
 				setIsTeam(false);
 				setTeam('');
+				break;
+			case 7:
+				setIsVersatility(false);
 				break;
 			default:
 				return;
@@ -216,6 +224,7 @@ function Search() {
 							<MenuItem onClick={() => addParams(4)}>Position</MenuItem>
 							<MenuItem onClick={() => addParams(5)}>Nationality</MenuItem>
 							<MenuItem onClick={() => addParams(6)}>Team</MenuItem>
+							<MenuItem onClick={() => addParams(7)}>Versatility</MenuItem>
 						</Menu>
 					</Box>
 				</FlexBetween>
@@ -436,6 +445,31 @@ function Search() {
 									color: theme.palette.secondary[300],
 								}}
 							/>
+						</Box>
+					)}
+					{isVersatility && (
+						<Box
+							borderRadius="5px"
+							gap="3rem"
+							p="0.5rem 1.5rem"
+							m="0.5rem"
+							sx={{
+								width: '800px',
+								border: '1px solid',
+								borderColor: theme.palette.primary.main,
+							}}
+						>
+							<FlexBetween>
+								<Title subtitle="Versatility"></Title>
+								<Delete
+									onClick={() => deleteParams(7)}
+									sx={{
+										cursor: 'pointer',
+										color: theme.palette.secondary.main,
+									}}
+								/>
+							</FlexBetween>
+							<Rating name="versatility" defaultValue={0} precision={0.5} />
 						</Box>
 					)}
 				</Box>
