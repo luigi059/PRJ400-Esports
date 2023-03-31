@@ -1,5 +1,5 @@
 import express from 'express';
-import eventRoutes from './events.js';
+import eventRoutes from './event.js';
 import reviewRoutes from './review.js';
 import searchRoutes from './search.js';
 import userRoutes from './users.js';

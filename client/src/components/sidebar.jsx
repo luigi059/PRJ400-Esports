@@ -1,5 +1,6 @@
 import {
 	AllInboxOutlined,
+	CalendarMonthOutlined,
 	ChevronLeft,
 	ChevronRightOutlined,
 	DynamicFeedOutlined,
@@ -57,6 +58,11 @@ const navItems = [
 		text: 'Feed',
 		link: 'feed',
 		icon: <DynamicFeedOutlined />,
+	},
+	{
+		text: 'Schedule',
+		link: 'schedule',
+		icon: <CalendarMonthOutlined />,
 	},
 ];
 

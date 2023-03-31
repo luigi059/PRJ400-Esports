@@ -13,8 +13,8 @@ import {
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FlexBetween, Title } from '../components';
 import { GlobalState } from '../GlobalState';
+import { FlexBetween, Title } from '../components';
 
 function Search() {
 	const theme = useTheme();

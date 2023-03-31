@@ -7,6 +7,7 @@ import {
 	Home,
 	Inbox,
 	Review,
+	Schedule,
 	Search,
 	SelectedProfile,
 	SignIn,
@@ -28,6 +29,7 @@ function Pages() {
 				<Route path="/team" element={<Team />} />
 				<Route path="/inbox" element={<Inbox />} />
 				<Route path="/feed" element={<Feed />} />
+				<Route path="/schedule" element={<Schedule />} />
 			</Route>
 		</Routes>
 	);
