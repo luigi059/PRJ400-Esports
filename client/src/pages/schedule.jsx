@@ -1,3 +1,4 @@
+import { Delete } from '@mui/icons-material';
 import {
 	Box,
 	Button,
@@ -32,6 +33,8 @@ function Schedule() {
 	const [description, setDescription] = React.useState('');
 	const token = localStorage.getItem('token');
 	const [isLoading, setIsLoading] = useState(true);
+	const [eventId, setEventId] = useState('');
+	const [isCreating, setIsCreating] = useState(true);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -56,14 +59,34 @@ function Schedule() {
 	});
 
 	const openEventClick = (event) => {
+		setIsCreating(false);
+		setEventId(event._id);
+		setTitle(event.title);
+		setStartDate(event.start);
+		setEndDate(event.end);
+		setDescription(event.description);
+		setOpenCreateEvent(true);
 		console.log(event);
 	};
 
 	const createEvent = () => {
+		setIsCreating(true);
+		setEventId('');
+		setTitle('');
+		setStartDate(new Date());
+		setEndDate(new Date());
+		setDescription('');
 		setOpenCreateEvent(true);
 	};
 	const closeCreateEvent = () => {
 		setOpenCreateEvent(false);
+	};
+	const deleteEvent = () => {
+		axios.delete(`http://localhost:5000/api/event/delete/${eventId}`, {
+			headers: { Authorization: token },
+		});
+		setOpenCreateEvent(false);
+		window.location.reload(false);
 	};
 
 	const getEvents = async () => {
@@ -71,6 +94,11 @@ function Schedule() {
 			const res = await axios.get('http://localhost:5000/api/event', {
 				headers: { Authorization: token },
 			});
+			res.data.forEach((el) => {
+				el.start = new Date(el.start);
+				el.end = new Date(el.end);
+			});
+			console.log(res.data);
 			setEvents(res.data);
 		} catch (err) {
 			alert(err.response.data.msg);
@@ -78,19 +106,30 @@ function Schedule() {
 	};
 
 	const onSubmit = () => {
-		const newEvent = {
+		const event = {
 			title: title,
 			start: startDate,
 			end: endDate,
 			description: description,
 		};
-		axios.post(
-			'http://localhost:5000/api/event/create',
-			{
-				...newEvent,
-			},
-			{ headers: { Authorization: token } }
-		);
+
+		if (isCreating) {
+			axios.post(
+				'http://localhost:5000/api/event/create',
+				{
+					...event,
+				},
+				{ headers: { Authorization: token } }
+			);
+		} else {
+			axios.put(
+				`http://localhost:5000/api/event/update/${eventId}`,
+				{
+					...event,
+				},
+				{ headers: { Authorization: token } }
+			);
+		}
 		setOpenCreateEvent(false);
 		window.location.reload(false);
 	};
@@ -169,7 +208,23 @@ function Schedule() {
 						},
 					}}
 				>
-					<DialogTitle>Create Event</DialogTitle>
+					<FlexBetween>
+						{isCreating ? (
+							<DialogTitle>Create Event</DialogTitle>
+						) : (
+							<DialogTitle>Modify Event</DialogTitle>
+						)}
+						{!isCreating && (
+							<Delete
+								onClick={() => deleteEvent()}
+								sx={{
+									margin: '5px',
+									cursor: 'pointer',
+									color: theme.palette.secondary.main,
+								}}
+							/>
+						)}
+					</FlexBetween>
 					<DialogContent>
 						<TextField
 							autoFocus
@@ -179,6 +234,7 @@ function Schedule() {
 							type="text"
 							fullWidth
 							variant="standard"
+							value={title}
 							onChange={(e) => {
 								setTitle(e.target.value);
 							}}
@@ -214,6 +270,7 @@ function Schedule() {
 							label="Description"
 							type="text"
 							fullWidth
+							value={description}
 							variant="standard"
 							onChange={(e) => {
 								setDescription(e.target.value);
