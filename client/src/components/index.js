@@ -1,3 +1,4 @@
+export { default as ChatHeader } from './chatheader';
 export { default as Feature } from './feature';
 export { default as FlexBetween } from './flexbetween';
 export { default as Form } from './form';
