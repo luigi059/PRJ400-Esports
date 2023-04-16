@@ -6,7 +6,7 @@ import {
 	useMultiChatLogic,
 } from 'react-chat-engine-advanced';
 import '../chat.css';
-import { ChatHeader, Loading } from '../components';
+import { ChatHeader, StandardMessage } from '../components';
 
 function Inbox() {
 	const PROJECT_ID = process.env.REACT_APP_CHAT_PROJECT_ID;
@@ -19,6 +19,9 @@ function Inbox() {
 				{...chatProps}
 				style={{ height: '100vh' }}
 				renderChatHeader={(chat) => <ChatHeader chat={chat} />}
+				renderMessageForm={(props) => {
+					return <StandardMessage props={props} activeChat={chatProps.chat} />;
+				}}
 			/>
 		</Box>
 	);

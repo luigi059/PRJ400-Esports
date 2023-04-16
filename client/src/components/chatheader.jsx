@@ -1,4 +1,4 @@
-import { ChatBubbleOutlined, LocalPhoneOutlined } from '@mui/icons-material';
+import { ChatBubbleOutlined } from '@mui/icons-material';
 import React from 'react';
 import '../chat.css';
 
@@ -10,7 +10,6 @@ const ChatHeader = ({ chat }) => {
 				<h3 className="header-text">{chat.title}</h3>
 			</div>
 			<div className="flexbetween">
-				<LocalPhoneOutlined className="icon-phone" />
 				{chat.description !== '⬅️ ⬅️ ⬅️' ? (
 					<p className="header-text">{chat.description}</p>
 				) : (

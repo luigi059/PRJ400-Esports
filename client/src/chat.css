@@ -173,12 +173,13 @@ body,
 
 .message-form-input,
 .message-form-input:focus,
-.message-form-input:active {
+.message-form-input:active,
+.message-form-input::placeholder {
 	all: unset;
 	position: absolute;
 	top: 0;
 	left: 0;
-	color: #daa3ea !important;
+	color: white !important;
 	z-index: 2 !important;
 	width: 100% !important;
 }
@@ -239,8 +240,19 @@ body,
 	border-right: 1px solid #4d547d !important;
 }
 
-.ce-chat-form {
+.ce-chat-form,
+.ce-chat-form-html-form {
 	background-color: #191f45 !important;
+}
+
+.ce-chat-form-html-form .ce-input {
+	background-color: #0d1025 !important;
+	color: white !important;
+	font-family: 'Rubik' !important;
+}
+
+.ce-chat-form-html-form .ce-input::placeholder {
+	color: white !important;
 }
 
 .ce-chat-form-title {
@@ -270,11 +282,12 @@ body,
 .ce-chat-card-title {
 	top: 16px !important;
 	font-family: 'Rubik' !important;
+	color: white !important;
 }
 
 .ce-chat-card-subtitle {
 	bottom: 16px !important;
-	color: #fff1cd !important;
+	color: white !important;
 	font-family: 'Rubik' !important;
 	font-weight: 300 !important;
 }
@@ -403,7 +416,7 @@ body,
 .ce-my-message-body {
 	font-family: 'Rubik' !important;
 	background-color: #a31acb !important;
-	color: #daa3ea !important;
+	color: white !important;
 	border-radius: 8px !important;
 	font-size: 14px !important;
 }
@@ -479,7 +492,7 @@ body,
 
 .ce-dropdown-label {
 	padding: 30px 25px 10px 25px !important;
-	color: #858585 !important;
+	color: #daa3ea !important;
 	background-color: #191f45 !important;
 	font-family: 'Rubik' !important;
 	font-weight: 300 !important;
@@ -504,15 +517,20 @@ body,
 	background-color: #0d1025 !important;
 	color: #daa3ea !important;
 	font-family: 'Rubik' !important;
-	border: 1px solid #4d547d !important;
+	border: 1px solid #daa3ea !important;
 	border-radius: 5px !important;
+}
+
+.ce-autocomplete-input::placeholder {
+	color: white !important;
 }
 
 .ce-danger-button {
 	border-radius: 5px !important;
 	background-color: #0d1025 !important;
-	color: #4d547d !important;
-	border: 1px solid #4d547d !important;
+	color: #daa3ea !important;
+	border: 1px solid #daa3ea !important;
+	font-family: 'Rubik' !important;
 }
 
 .ce-default-button {
