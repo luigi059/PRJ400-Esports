@@ -17,21 +17,33 @@ import {
 	useMediaQuery,
 	useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Dropzone from 'react-dropzone';
+import { GlobalState } from '../../GlobalState';
 import FlexBetween from '../flexbetween';
 
 const MyPost = () => {
 	const theme = useTheme();
+	const state = useContext(GlobalState);
 	const isNonMobileScreens = useMediaQuery('(min-width: 1000px)');
 	const [isImage, setIsImage] = useState(false);
 	const [image, setImage] = useState(null);
 	const [post, setPost] = useState('');
+	const [user] = state.userApi.user;
 	const mediumMain = theme.palette.secondary[100];
 	const medium = theme.palette.secondary.main;
 
 	const handlePost = async () => {
-		console.log('Hi There!');
+		const formData = new FormData();
+		formData.append('userId', user.userInfo.user._id);
+		formData.append('description', post);
+		if (image) {
+			formData.append('picture', image);
+			formData.append('picturePath', image.name);
+		}
+		for (const [key, value] of formData.entries()) {
+			console.log(`${key}: ${value}`);
+		}
 	};
 
 	return (
