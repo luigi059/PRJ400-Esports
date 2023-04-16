@@ -1,6 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
-import FlexBetween from './flexbetween';
 
 const SmallBox = ({ title, first, second, third }) => {
 	const theme = useTheme();

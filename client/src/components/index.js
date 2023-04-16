@@ -7,6 +7,7 @@ export { default as Layout } from './layout';
 export { default as Loading } from './loading/loading';
 export { default as Navbar } from './navbar';
 export { default as OptForm } from './opt-form';
+export { default as MyPost } from './posts/mypost';
 export { default as SmallBox } from './smallbox';
 export { default as StandardMessage } from './standardmessage';
 export { default as Title } from './title';
