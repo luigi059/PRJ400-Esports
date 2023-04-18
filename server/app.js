@@ -1,32 +1,27 @@
+import cloudinary from 'cloudinary';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import postController from './controllers/postController.js';
 import auth from './middleware/auth.js';
 import routes from './routes/index.js';
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 // Load the environment variables from a .env file.
 dotenv.config();
 
-/* FILE STORAGE */
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, 'public/uploads');
-	},
-	filename: function (req, file, cb) {
-		cb(null, file.fieldname + '-' + Date.now());
-	},
+// Cloudinary Configuration
+cloudinary.config({
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.CLOUD_API_KEY,
+	api_secret: process.env.CLOUD_API_SECRET,
 });
-const upload = multer({ storage: storage });
+
+/* FILE STORAGE */
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Connect to MongoDB
 const DB = process.env.DATABASE;
