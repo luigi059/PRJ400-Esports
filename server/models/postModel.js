@@ -12,10 +12,14 @@ export default mongoose.model(
 				type: String,
 				required: true,
 			},
+			username: {
+				type: String,
+				required: true,
+			},
 			location: String,
 			description: String,
 			picturePath: String,
-			userPicturePath: String,
+			pictureId: String,
 			likes: {
 				type: Map,
 				of: Boolean,

@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import Post from '../models/postModel.js';
 import Review from '../models/reviewModel.js';
 import User from '../models/userModel.js';
 
@@ -140,7 +141,9 @@ const getUser = async (req, res) => {
 		const date = new Date(user.dob);
 		var ageDate = new Date(today - date);
 		user.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
-		console.log(typeof parseInt(Math.abs(ageDate.getUTCFullYear() - 1970)));
+
+		const posts = await Post.find({ userID: req.user.id });
+
 		const userInfo = {
 			userInfo: {
 				user,
@@ -153,6 +156,7 @@ const getUser = async (req, res) => {
 					technicalAvg,
 					farmingAvg,
 				},
+				posts,
 			},
 		};
 		res.json(userInfo);

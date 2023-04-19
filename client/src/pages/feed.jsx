@@ -1,6 +1,6 @@
 import { Box, useMediaQuery } from '@mui/material';
 import React from 'react';
-import { MyPost } from '../components';
+import { MyPosts, PostForm } from '../components';
 
 function Feed() {
 	const isNonMobileScreens = useMediaQuery('(min-width:1000px)');
@@ -18,7 +18,8 @@ function Feed() {
 					flexBasis={isNonMobileScreens ? '70%' : undefined}
 					mt={isNonMobileScreens ? undefined : '2rem'}
 				>
-					<MyPost />
+					<PostForm />
+					<MyPosts />
 				</Box>
 			</Box>
 		</Box>
