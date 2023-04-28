@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import Post from '../models/postModel.js';
 import Review from '../models/reviewModel.js';
+import Team from '../models/teamModel.js';
 import User from '../models/userModel.js';
 
 const register = async (req, res) => {
@@ -143,23 +144,46 @@ const getUser = async (req, res) => {
 		user.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
 
 		const posts = await Post.find({ userID: req.user.id });
-
-		const userInfo = {
-			userInfo: {
-				user,
-				rating: {
-					overallAvg,
-					leadershipAvg,
-					draftingAvg,
-					knowledgeAvg,
-					versatilityAvg,
-					technicalAvg,
-					farmingAvg,
+		if (user.teamId !== null) {
+			console.log(user.teamId);
+			const team = await Team.find({ _id: user.teamId });
+			console.log(team);
+			const userInfo = {
+				userInfo: {
+					user,
+					rating: {
+						overallAvg,
+						leadershipAvg,
+						draftingAvg,
+						knowledgeAvg,
+						versatilityAvg,
+						technicalAvg,
+						farmingAvg,
+					},
+					posts,
+					team,
 				},
-				posts,
-			},
-		};
-		res.json(userInfo);
+			};
+			res.json(userInfo);
+		} else {
+			const userInfo = {
+				userInfo: {
+					user,
+					rating: {
+						overallAvg,
+						leadershipAvg,
+						draftingAvg,
+						knowledgeAvg,
+						versatilityAvg,
+						technicalAvg,
+						farmingAvg,
+					},
+					posts,
+					team: null,
+				},
+			};
+			res.json(userInfo);
+		}
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export default mongoose.model(
 	'User',
@@ -34,6 +34,12 @@ export default mongoose.model(
 		discoverable: {
 			type: Boolean,
 			required: true,
+		},
+		teamId: {
+			type: Schema.Types.ObjectId,
+			ref: 'Team',
+			required: null,
+			default: null,
 		},
 	})
 );

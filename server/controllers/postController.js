@@ -3,8 +3,6 @@ import Post from '../models/postModel.js';
 
 export const createPost = async (req, res) => {
 	try {
-		console.log(req.body);
-		console.log(req.file);
 		const { userId, name, username, description } = req.body;
 		const uploadResult = await new Promise((resolve, reject) => {
 			const uploadStream = cloudinary.v2.uploader.upload_stream(
@@ -19,7 +17,6 @@ export const createPost = async (req, res) => {
 			);
 			uploadStream.end(req.file.buffer);
 		});
-		console.log(uploadResult);
 		const imagePath = uploadResult.secure_url;
 		const imageId = uploadResult.public_id;
 		const newPost = new Post({

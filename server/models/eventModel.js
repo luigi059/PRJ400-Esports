@@ -5,7 +5,7 @@ export default mongoose.model(
 	mongoose.Schema({
 		eventOwner: {
 			type: Schema.Types.ObjectId,
-			ref: 'User',
+			ref: 'Team',
 			required: true,
 		},
 		title: {

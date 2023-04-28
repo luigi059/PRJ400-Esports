@@ -1,9 +1,9 @@
 import { Box, Button, Rating, Typography, useTheme } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GlobalState } from '../GlobalState';
 import { FlexBetween, Loading, SmallBox, Title } from '../components';
 import * as ROUTES from '../constants/routes';
-import { GlobalState } from '../GlobalState';
 
 const Dashboard = () => {
 	const theme = useTheme();
@@ -135,7 +135,7 @@ const Dashboard = () => {
 								},
 							}}
 							onClick={() => {
-								navigate(ROUTES.REVIEW);
+								navigate(ROUTES.TEAM);
 							}}
 						>
 							View More

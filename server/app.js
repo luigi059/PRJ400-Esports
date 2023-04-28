@@ -6,6 +6,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import postController from './controllers/postController.js';
+import teamController from './controllers/teamController.js';
 import auth from './middleware/auth.js';
 import routes from './routes/index.js';
 
@@ -41,6 +42,12 @@ app.post(
 	auth,
 	upload.single('file'),
 	postController.createPost
+);
+app.post(
+	'/api/team/create',
+	auth,
+	upload.single('file'),
+	teamController.createTeam
 );
 
 app.use('/api', routes);
