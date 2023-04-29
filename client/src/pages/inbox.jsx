@@ -12,9 +12,8 @@ import { ChatHeader, StandardMessage } from '../components';
 function Inbox() {
 	const state = useContext(GlobalState);
 	const [user] = state.userApi.user;
-	const PROJECT_ID = process.env.REACT_APP_CHAT_PROJECT_ID;
 	const chatProps = useMultiChatLogic(
-		PROJECT_ID,
+		'fffa70d1-d539-4e3e-a7aa-ca10cef669a8',
 		user.userInfo.user.username,
 		user.userInfo.user.username
 	);
