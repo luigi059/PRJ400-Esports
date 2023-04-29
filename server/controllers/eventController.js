@@ -2,7 +2,7 @@ import Event from '../models/eventModel.js';
 
 const getEvent = async (req, res) => {
 	console.log('Welcome to GetEvent');
-	const id = req.user.id;
+	const id = req.params.id;
 	try {
 		const events = await Event.find({ eventOwner: id });
 		res.json(events);
@@ -13,10 +13,10 @@ const getEvent = async (req, res) => {
 
 const createEvent = async (req, res) => {
 	console.log('Welcome to CreateEvent');
-	const { title, start, end, description } = req.body;
+	const { title, start, end, description, teamId } = req.body;
 	try {
 		const newEvent = new Event({
-			eventOwner: req.user.id,
+			eventOwner: teamId,
 			title,
 			start,
 			end,

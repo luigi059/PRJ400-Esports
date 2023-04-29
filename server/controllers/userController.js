@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import cloudinary from 'cloudinary';
 import jwt from 'jsonwebtoken';
 import Post from '../models/postModel.js';
 import Review from '../models/reviewModel.js';
@@ -6,18 +7,10 @@ import Team from '../models/teamModel.js';
 import User from '../models/userModel.js';
 
 const register = async (req, res) => {
-	console.log('Welcome to Register');
 	try {
-		const {
-			name,
-			username,
-			email,
-			password,
-			dob,
-			nationality,
-			position,
-			discoverable,
-		} = req.body;
+		const { name, username, email, password, dob, nationality, position } =
+			req.body;
+
 		// 1) validation
 		if (
 			!name ||
@@ -26,8 +19,7 @@ const register = async (req, res) => {
 			!password ||
 			!dob ||
 			!nationality ||
-			!position ||
-			discoverable == undefined
+			!position
 		)
 			return res.status(400).json({ msg: 'All Fields Required' });
 		// 2) Check if existing user exists
@@ -41,7 +33,22 @@ const register = async (req, res) => {
 				.json({ msg: 'Password is at least 6 characters long.' });
 		// 4) Password Encryption
 		const passwordHash = await bcrypt.hash(password, 10);
-		// 5) if everything is ok, create a new user and save to mongoDB
+
+		const uploadResult = await new Promise((resolve, reject) => {
+			const uploadStream = cloudinary.v2.uploader.upload_stream(
+				{ folder: 'prj-400-users' },
+				(error, result) => {
+					if (error) {
+						reject(error);
+					} else {
+						resolve(result);
+					}
+				}
+			);
+			uploadStream.end(req.file.buffer);
+		});
+		const imagePath = uploadResult.secure_url;
+		const imageId = uploadResult.public_id;
 		const newUser = new User({
 			name,
 			username,
@@ -50,7 +57,8 @@ const register = async (req, res) => {
 			dob,
 			nationality,
 			position,
-			discoverable,
+			picturePath: imagePath,
+			pictureId: imageId,
 		});
 		await newUser.save();
 		// Then create jsonwebtoken for authentication
@@ -61,7 +69,6 @@ const register = async (req, res) => {
 			httpOnly: true,
 			path: '/user/refresh_token',
 		});
-
 		res.json({ accessToken });
 	} catch (err) {
 		res.status(500).json({ error: err.message });
@@ -143,7 +150,9 @@ const getUser = async (req, res) => {
 		var ageDate = new Date(today - date);
 		user.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
 
-		const posts = await Post.find({ userID: req.user.id });
+		const posts = await Post.find({ userId: req.user.id });
+		console.log(posts);
+
 		if (user.teamId !== null) {
 			console.log(user.teamId);
 			const team = await Team.find({ _id: user.teamId });

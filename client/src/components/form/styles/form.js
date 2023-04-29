@@ -7,7 +7,7 @@ export const Container = styled.div`
 	justify-content: center;
 	border-radius: 5px;
 	margin: auto;
-	height: calc(100vh - 10em);
+	height: auto;
 	width: 100%;
 `;
 
@@ -17,9 +17,10 @@ export const Base = styled.div`
 	align-items: center;
 	justify-content: center;
 	background-color: rgba(0, 0, 0, 0.75);
-	height: calc(100vh - 10rem);
+	height: auto;
 	width: 30rem;
 	border-radius: 8px;
+	padding: 1rem;
 `;
 
 export const InputGroup = styled.form`
@@ -78,6 +79,9 @@ export const Input = styled.input`
 	margin: 0 0 1em 0;
 	padding: 1em;
 	width: 100%;
+	::placeholder {
+		color: white;
+	}
 `;
 
 export const TwoInput = styled.input`
@@ -93,6 +97,9 @@ export const TwoInput = styled.input`
 	}
 	&:last-of-type {
 		margin-right: 0;
+	}
+	::placeholder {
+		color: white;
 	}
 `;
 

@@ -17,13 +17,18 @@ export default function SearchAPI() {
 	};
 
 	useDidMountEffect(() => {
-		const getProducts = async () => {
+		console.log(search);
+		const getPlayers = async () => {
+			const token = localStorage.getItem('token');
 			const res = await axios.get(
-				`http://localhost:5000/api/search/minisearch?${search}`
+				`http://localhost:5000/api/search?${search}`,
+				{
+					headers: { Authorization: token },
+				}
 			);
 			setPlayers(res.data.players);
 		};
-		getProducts();
+		getPlayers();
 	}, [search]);
 
 	return {

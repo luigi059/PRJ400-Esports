@@ -4,6 +4,6 @@ import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/minisearch', searchController.miniSearch);
+router.get('/', auth, searchController.search);
 
 export default router;

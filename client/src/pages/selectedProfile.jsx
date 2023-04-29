@@ -7,6 +7,7 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	Divider,
 	Menu,
 	MenuItem,
 	Rating,
@@ -18,8 +19,8 @@ import {
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { FlexBetween, Loading, SmallBox, Title } from '../components';
 import { GlobalState } from '../GlobalState';
+import { FlexBetween, Loading, SmallBox, Title } from '../components';
 
 function SelectedProfile() {
 	const theme = useTheme();
@@ -38,7 +39,10 @@ function SelectedProfile() {
 	const [farming, setFarming] = React.useState(0);
 	const [reviewContent, setReviewContent] = React.useState(null);
 	const [page, setPage] = useState('main');
+	const [post, setPost] = useState(null);
 	const token = localStorage.getItem('token');
+	const secondary = theme.palette.secondary[100];
+	const [haveTeam, setHaveTeam] = useState(false);
 
 	const getInfo = async () => {
 		try {
@@ -65,13 +69,36 @@ function SelectedProfile() {
 		}
 	};
 
+	const getPosts = async () => {
+		try {
+			const res = await axios.get(
+				`http://localhost:5000/api/post/get/${params.id}`,
+				{
+					headers: { Authorization: token },
+				}
+			);
+			console.log(res.data);
+			setPost(res.data);
+		} catch (err) {
+			alert(err.response.data.msg);
+		}
+	};
+
 	useEffect(() => {
 		getInfo();
 		getReviews();
+		getPosts();
 	}, []);
 	useEffect(() => {
 		setIsLoading(true);
 		if (player.user && reviews) {
+			if (player.team !== null) {
+				console.log(player.team);
+				setHaveTeam(true);
+			}
+			if (player.team === null) {
+				setHaveTeam(false);
+			}
 			setIsLoading(false);
 		}
 	}, [player, reviews]);
@@ -90,6 +117,10 @@ function SelectedProfile() {
 	};
 	const goToReview = () => {
 		setPage('review');
+		setAnchorEl(null);
+	};
+	const goToFeed = () => {
+		setPage('feed');
 		setAnchorEl(null);
 	};
 
@@ -143,6 +174,12 @@ function SelectedProfile() {
 						subtitle={`Welcome to ${player.user.username}'s reviews`}
 					/>
 				)}
+				{page === 'feed' && (
+					<Title
+						title={player.user.username}
+						subtitle={`Welcome to ${player.user.username}'s feed`}
+					/>
+				)}
 				<Box display="flex" sx={{ minWidth: 120 }}>
 					{page === 'review' && (
 						<Box marginRight="0.5rem">
@@ -188,6 +225,7 @@ function SelectedProfile() {
 					>
 						<MenuItem onClick={goToMain}>Main</MenuItem>
 						<MenuItem onClick={goToReview}>Reviews</MenuItem>
+						<MenuItem onClick={goToFeed}>Feed</MenuItem>
 					</Menu>
 				</Box>
 			</FlexBetween>
@@ -197,16 +235,39 @@ function SelectedProfile() {
 						<SmallBox
 							title="Player Info"
 							first={player.user.name}
-							second="25 years old"
+							second={`${player.user.dob} years old`}
 							third={player.user.position}
+							picture={player.user.picturePath}
 						/>
-						<SmallBox title="Team Info" second="No Team" third="" />
+						{haveTeam && (
+							<SmallBox
+								title="Team Info"
+								first={player.team[0].name}
+								second=""
+								third=""
+								picture={player.team[0].picturePath}
+							/>
+						)}
+						{!haveTeam && (
+							<SmallBox
+								title="Team Info"
+								first="This Player Has No Team"
+								third=""
+							/>
+						)}
+						<SmallBox
+							title="Invites"
+							first="This Person Has No Pending invites"
+							second=""
+							third=""
+						/>
 					</Box>
 					<Box display="flex" marginTop="1rem">
 						<Box
 							backgroundColor={theme.palette.background.alt}
 							p="1.5rem"
 							borderRadius="0.55rem"
+							mr=".5rem"
 						>
 							<Typography
 								variant="h4"
@@ -216,6 +277,7 @@ function SelectedProfile() {
 							</Typography>
 							<FlexBetween>
 								<Typography
+									m=".5rem"
 									variant="h5"
 									sx={{ color: theme.palette.neutral[0] }}
 								>
@@ -229,6 +291,7 @@ function SelectedProfile() {
 							</FlexBetween>
 							<FlexBetween>
 								<Typography
+									m=".5rem"
 									variant="h5"
 									sx={{ color: theme.palette.neutral[0] }}
 								>
@@ -242,6 +305,7 @@ function SelectedProfile() {
 							</FlexBetween>
 							<FlexBetween>
 								<Typography
+									m=".5rem"
 									variant="h5"
 									sx={{ color: theme.palette.neutral[0] }}
 								>
@@ -255,6 +319,7 @@ function SelectedProfile() {
 							</FlexBetween>
 							<FlexBetween>
 								<Typography
+									m=".5rem"
 									variant="h5"
 									sx={{ color: theme.palette.neutral[0] }}
 								>
@@ -268,6 +333,7 @@ function SelectedProfile() {
 							</FlexBetween>
 							<FlexBetween>
 								<Typography
+									m=".5rem"
 									variant="h5"
 									sx={{ color: theme.palette.neutral[0] }}
 								>
@@ -281,6 +347,7 @@ function SelectedProfile() {
 							</FlexBetween>
 							<FlexBetween>
 								<Typography
+									m=".5rem"
 									variant="h5"
 									sx={{ color: theme.palette.neutral[0] }}
 								>
@@ -294,6 +361,7 @@ function SelectedProfile() {
 							</FlexBetween>
 							<FlexBetween>
 								<Typography
+									m=".5rem"
 									variant="h5"
 									sx={{ color: theme.palette.neutral[0] }}
 								>
@@ -330,6 +398,209 @@ function SelectedProfile() {
 								</Button>
 							</Box>
 						</Box>
+						{reviews.length > 0 && (
+							<Box
+								backgroundColor={theme.palette.background.alt}
+								p="1rem"
+								borderRadius="0.55rem"
+								mr=".5rem"
+							>
+								<Typography
+									variant="h4"
+									sx={{ color: theme.palette.secondary[200] }}
+								>
+									Latest Review
+								</Typography>
+								<Box
+									marginTop="1rem"
+									backgroundColor={theme.palette.background.alt}
+								>
+									<FlexBetween>
+										<Box>
+											<Typography
+												variant="h5"
+												sx={{ color: theme.palette.neutral[0] }}
+											>
+												Leadership
+											</Typography>
+											<Rating
+												name="read-only"
+												value={reviews[0].leadership}
+												readOnly
+											/>
+										</Box>
+										<Box>
+											<Typography
+												variant="h5"
+												sx={{ color: theme.palette.neutral[0] }}
+											>
+												Drafting
+											</Typography>
+											<Rating
+												name="read-only"
+												value={reviews[0].drafting}
+												readOnly
+											/>
+										</Box>
+										<Box>
+											<Typography
+												variant="h5"
+												sx={{ color: theme.palette.neutral[0] }}
+											>
+												Knowledge
+											</Typography>
+											<Rating
+												name="read-only"
+												value={reviews[0].knowledge}
+												readOnly
+											/>
+										</Box>
+										<Box>
+											<Typography
+												variant="h5"
+												sx={{ color: theme.palette.neutral[0] }}
+											>
+												Versatility
+											</Typography>
+											<Rating
+												name="read-only"
+												value={reviews[0].versatility}
+												readOnly
+											/>
+										</Box>
+										<Box>
+											<Typography
+												variant="h5"
+												sx={{ color: theme.palette.neutral[0] }}
+											>
+												Technical
+											</Typography>
+											<Rating
+												name="read-only"
+												value={reviews[0].technical}
+												readOnly
+											/>
+										</Box>
+										<Box>
+											<Typography
+												variant="h5"
+												sx={{ color: theme.palette.neutral[0] }}
+											>
+												Farming
+											</Typography>
+											<Rating
+												name="read-only"
+												value={reviews[0].farming}
+												readOnly
+											/>
+										</Box>
+									</FlexBetween>
+									<Box
+										marginTop="1rem"
+										backgroundColor={theme.palette.background.alt}
+									>
+										<Typography
+											variant="h5"
+											sx={{ color: theme.palette.neutral[0] }}
+										>
+											{reviews[0].content}
+										</Typography>
+										<Typography
+											marginTop="1rem"
+											variant="h6"
+											sx={{ color: theme.palette.neutral[0] }}
+										>
+											By: {reviews[0].reviewer}
+										</Typography>
+									</Box>
+								</Box>
+							</Box>
+						)}
+						{reviews.length === 0 && (
+							<Box
+								backgroundColor={theme.palette.background.alt}
+								p="1rem"
+								borderRadius="0.55rem"
+								mr=".5rem"
+								width="645px"
+							>
+								<Typography
+									mb=".5rem"
+									variant="h4"
+									sx={{ color: theme.palette.secondary[200] }}
+								>
+									Latest Review
+								</Typography>
+								<Typography variant="h6" sx={{ color: 'white' }}>
+									This person has no reviews
+								</Typography>
+							</Box>
+						)}
+						{post.length > 0 && (
+							<Box
+								backgroundColor={theme.palette.background.alt}
+								p="1rem"
+								borderRadius="0.55rem"
+								position="relative"
+							>
+								<Typography
+									variant="h4"
+									sx={{ color: theme.palette.secondary[200] }}
+								>
+									Recent Post
+								</Typography>
+								<Box sx={{ padding: '.25rem' }}>
+									<Typography color="white" sx={{ mt: '1rem' }}>
+										{post[0].description}
+									</Typography>
+								</Box>
+								<Box
+									sx={{
+										marginTop: '1rem',
+										display: 'flex',
+										justifyContent: 'center',
+										position: 'absolute',
+										bottom: '1.5rem',
+										right: '5.5rem',
+									}}
+								>
+									<Button
+										variant="contained"
+										sx={{
+											backgroundColor: theme.palette.secondary.light,
+											color: theme.palette.background.alt,
+											fontSize: '.75rem',
+											fontWeight: 'bold',
+											padding: '5 10px',
+											':hover': {
+												bgcolor: theme.palette.secondary[400],
+											},
+										}}
+										onClick={goToFeed}
+									>
+										View More
+									</Button>
+								</Box>
+							</Box>
+						)}
+						{post.length === 0 && (
+							<Box
+								backgroundColor={theme.palette.background.alt}
+								p="1rem"
+								borderRadius="0.55rem"
+								sx={{ width: '290px' }}
+							>
+								<Typography
+									variant="h4"
+									sx={{ color: theme.palette.secondary[200] }}
+								>
+									Recent Post
+								</Typography>
+								<Typography variant="h6" sx={{ color: 'white' }}>
+									This person has no posts
+								</Typography>
+							</Box>
+						)}
 					</Box>
 				</Box>
 			)}
@@ -421,6 +692,61 @@ function SelectedProfile() {
 									By: {review.reviewer}
 								</Typography>
 							</Box>
+						</Box>
+					);
+				})}
+			{page === 'feed' &&
+				post.map((post) => {
+					return (
+						<Box
+							sx={{
+								margin: '2rem 0',
+								padding: '1.5rem 1.5rem 0.75rem 1.5rem',
+								backgroundColor: theme.palette.background.alt,
+								borderRadius: '0.75rem',
+							}}
+							key={post._id}
+						>
+							<FlexBetween>
+								<FlexBetween gap="1rem">
+									<Box width="55px" height="55px">
+										{/* WIP */}
+										<img
+											style={{ objectFit: 'cover', borderRadius: '50%' }}
+											width="55px"
+											height="55px"
+											alt="user"
+											src={player.user.picturePath}
+										/>
+									</Box>
+									<Box>
+										<Typography color={secondary} variant="h4" fontWeight="500">
+											{post.username}
+										</Typography>
+										<Typography
+											color={secondary}
+											variant="h6"
+											fontWeight="500"
+											fontStyle="italic"
+										>
+											{post.name}
+										</Typography>
+									</Box>
+								</FlexBetween>
+							</FlexBetween>
+							<Divider sx={{ margin: '1.5rem 0' }} />
+							<Typography color="white" sx={{ mt: '1rem' }}>
+								{post.description}
+							</Typography>
+							{post.picturePath && (
+								<img
+									width="100%"
+									height="auto"
+									alt="post"
+									style={{ borderRadius: '0.75rem', marginTop: '0.75rem' }}
+									src={post.picturePath}
+								/>
+							)}
 						</Box>
 					);
 				})}

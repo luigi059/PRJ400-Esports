@@ -31,14 +31,20 @@ export default mongoose.model(
 			type: String,
 			required: true,
 		},
-		discoverable: {
-			type: Boolean,
-			required: true,
-		},
 		teamId: {
 			type: Schema.Types.ObjectId,
 			ref: 'Team',
 			required: null,
+			default: null,
+		},
+		picturePath: {
+			type: String,
+			required: false,
+			default: null,
+		},
+		pictureId: {
+			type: String,
+			required: false,
 			default: null,
 		},
 	})

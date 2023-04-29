@@ -39,6 +39,7 @@ function Team() {
 	const [name, setName] = React.useState('');
 	const [isImage, setIsImage] = useState(false);
 	const [image, setImage] = useState(null);
+	const mediumMain = theme.palette.secondary[100];
 	const medium = theme.palette.secondary.main;
 
 	const columns = [
@@ -85,7 +86,8 @@ function Team() {
 	};
 
 	const handleRowClick = (params) => {
-		navigate(`/profile/${params.id}`);
+		if (params.id === user.userInfo.user._id) navigate('/profile');
+		else navigate(`/profile/${params.id}`);
 	};
 
 	const leaveTeam = () => {
@@ -345,16 +347,23 @@ function Team() {
 							sx={{
 								'& .MuiDialog-container': {
 									'& .MuiPaper-root': {
+										backgroundColor: theme.palette.background.alt,
 										height: '100%',
 										maxHeight: '350px',
 										width: '100%',
 										maxWidth: '700px',
 									},
+									'& .MuiButtonBase-root': {
+										color: 'white',
+										'&:hover': {
+											backgroundColor: theme.palette.primary[400],
+										},
+									},
 								},
 							}}
 						>
 							<FlexBetween>
-								<DialogTitle>Create Team</DialogTitle>
+								<DialogTitle color={`${medium}`}>Create Team</DialogTitle>
 							</FlexBetween>
 							<DialogContent>
 								<TextField
@@ -365,9 +374,18 @@ function Team() {
 									type="text"
 									fullWidth
 									variant="standard"
+									autoComplete="off"
 									value={name}
 									onChange={(e) => {
 										setName(e.target.value);
+									}}
+									sx={{
+										'& label': {
+											color: 'white',
+										},
+										'& input': {
+											color: 'white',
+										},
 									}}
 								/>
 								{isImage && (
@@ -393,11 +411,15 @@ function Team() {
 													>
 														<input {...getInputProps()} />
 														{!image ? (
-															<Typography>Add Image Here</Typography>
+															<Typography color="white">
+																Add Image Here
+															</Typography>
 														) : (
 															<FlexBetween>
-																<Typography>{image.name}</Typography>
-																<EditOutlined />
+																<Typography color="white">
+																	{image.name}
+																</Typography>
+																<EditOutlined sx={{ color: mediumMain }} />
 															</FlexBetween>
 														)}
 													</Box>
@@ -406,7 +428,7 @@ function Team() {
 															onClick={() => setImage(null)}
 															sx={{ width: '15%' }}
 														>
-															<DeleteOutlined />
+															<DeleteOutlined sx={{ color: mediumMain }} />
 														</IconButton>
 													)}
 												</FlexBetween>
@@ -417,10 +439,14 @@ function Team() {
 								<Box
 									display="flex"
 									gap="0.25rem"
+									mt="1rem"
 									onClick={() => setIsImage(!isImage)}
 								>
-									<ImageOutlined />
-									<Typography sx={{ '&:hover': { cursor: 'pointer' } }}>
+									<ImageOutlined sx={{ color: mediumMain }} />
+									<Typography
+										color={mediumMain}
+										sx={{ '&:hover': { cursor: 'pointer', color: medium } }}
+									>
 										Image
 									</Typography>
 								</Box>

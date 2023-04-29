@@ -1,9 +1,20 @@
+import {
+	Autocomplete,
+	Box,
+	FormControl,
+	IconButton,
+	InputLabel,
+	MenuItem,
+	Select,
+	TextField,
+	Typography,
+	useTheme,
+} from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Form } from '../components';
+import { FlexBetween, Form, Header, Loading, Title } from '../components';
 import * as ROUTES from '../constants/routes';
-import HeaderContainer from '../containers/header';
-
+import logo from '../logo.png';
 export default function SignIn() {
 	const [user, setUser] = useState({
 		email: '',
@@ -32,7 +43,13 @@ export default function SignIn() {
 
 	return (
 		<>
-			<HeaderContainer>
+			<Box>
+				<Box sx={{ margin: '3rem' }}>
+					<FlexBetween>
+						<Header.Logo to={ROUTES.HOME} src={logo} alt="ESports" />
+						<Header.ButtonLink to={ROUTES.SIGN_IN}>Sign In</Header.ButtonLink>
+					</FlexBetween>
+				</Box>
 				<Form>
 					<Form.Base>
 						<Form.Title>Sign In</Form.Title>
@@ -57,12 +74,12 @@ export default function SignIn() {
 							</Form.Submit>
 						</Form.InputGroup>
 						<Form.Text>
-							New to the E-Sports Hub?{' '}
-							<Form.Link to="/signup">Sign up now.</Form.Link>
+							New to E-Sportify?
+							<Form.Link to="/signup"> Sign up now.</Form.Link>
 						</Form.Text>
 					</Form.Base>
 				</Form>
-			</HeaderContainer>
+			</Box>
 		</>
 	);
 }

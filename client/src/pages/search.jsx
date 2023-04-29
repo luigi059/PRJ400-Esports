@@ -58,20 +58,11 @@ function Search() {
 			case 2:
 				setIsGameTag(true);
 				break;
-			case 3:
-				setIsAge(true);
-				break;
 			case 4:
 				setIsPosition(true);
 				break;
 			case 5:
 				setIsNationality(true);
-				break;
-			case 6:
-				setIsTeam(true);
-				break;
-			case 7:
-				setIsVersatility(true);
 				break;
 			default:
 				return;
@@ -87,10 +78,6 @@ function Search() {
 				setIsGameTag(false);
 				setGameTag('');
 				break;
-			case 3:
-				setIsAge(false);
-				setAge('');
-				break;
 			case 4:
 				setIsPosition(false);
 				setPosition('');
@@ -98,13 +85,6 @@ function Search() {
 			case 5:
 				setIsNationality(false);
 				setNationality('');
-				break;
-			case 6:
-				setIsTeam(false);
-				setTeam('');
-				break;
-			case 7:
-				setIsVersatility(false);
 				break;
 			default:
 				return;
@@ -150,11 +130,6 @@ function Search() {
 		{
 			field: 'nationality',
 			headerName: 'Nationality',
-			flex: 0.5,
-		},
-		{
-			field: 'team',
-			headerName: 'Team',
 			flex: 0.5,
 		},
 	];
@@ -220,11 +195,8 @@ function Search() {
 						>
 							<MenuItem onClick={() => addParams(1)}>Name</MenuItem>
 							<MenuItem onClick={() => addParams(2)}>Game Tag</MenuItem>
-							<MenuItem onClick={() => addParams(3)}>Age</MenuItem>
 							<MenuItem onClick={() => addParams(4)}>Position</MenuItem>
 							<MenuItem onClick={() => addParams(5)}>Nationality</MenuItem>
-							<MenuItem onClick={() => addParams(6)}>Team</MenuItem>
-							<MenuItem onClick={() => addParams(7)}>Versatility</MenuItem>
 						</Menu>
 					</Box>
 				</FlexBetween>

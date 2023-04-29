@@ -21,7 +21,6 @@ const Post = ({
 	comments,
 }) => {
 	const theme = useTheme();
-	const likeCount = Object.keys(likes).length;
 	const main = theme.palette.secondary.main;
 	const secondary = theme.palette.secondary[100];
 	const token = localStorage.getItem('token');
@@ -89,25 +88,6 @@ const Post = ({
 					src={picturePath}
 				/>
 			)}
-			<Divider sx={{ margin: '1.5rem 0' }} />
-			<FlexBetween mt="0.25rem">
-				<FlexBetween gap="1rem">
-					<FlexBetween gap="0.3rem">
-						<IconButton>
-							{/* WIP */}
-							<FavoriteBorderOutlined sx={{ color: secondary }} />
-						</IconButton>
-						<Typography color={secondary}>{likeCount}</Typography>
-					</FlexBetween>
-					<FlexBetween gap="0.3rem">
-						{/* WIP */}
-						<IconButton>
-							<ChatBubbleOutlineOutlined sx={{ color: secondary }} />
-						</IconButton>
-						<Typography color={secondary}>{comments.length}</Typography>
-					</FlexBetween>
-				</FlexBetween>
-			</FlexBetween>
 		</Box>
 	);
 };

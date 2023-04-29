@@ -18,15 +18,15 @@ export default mongoose.model(
 			},
 			location: String,
 			description: String,
-			picturePath: String,
-			pictureId: String,
-			likes: {
-				type: Map,
-				of: Boolean,
+			picturePath: {
+				type: String,
+				required: false,
+				default: null,
 			},
-			comments: {
-				type: Array,
-				default: [],
+			pictureId: {
+				type: String,
+				required: false,
+				default: null,
 			},
 		},
 		{ timestamps: true }

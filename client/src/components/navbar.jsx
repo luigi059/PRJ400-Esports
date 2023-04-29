@@ -17,11 +17,10 @@ import {
 	useTheme,
 } from '@mui/material';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as ROUTES from '../constants/routes';
 import { GlobalState } from '../GlobalState';
-import profileImage from '../images/miracle.jfif';
+import * as ROUTES from '../constants/routes';
 import FlexBetween from './flexbetween';
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
@@ -29,10 +28,18 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const navigate = useNavigate();
 	const state = useContext(GlobalState);
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [user] = state.userApi.user;
 	const [search, setSearch] = state.searchAPI.search;
 	const [players, setPlayers] = state.searchAPI.players;
-	const [searchTerm, setSearchTerm] = useState('');
 	const isOpen = Boolean(anchorEl);
+	const [isLoading, setIsLoading] = useState(true);
+	const [gameTag, setGameTag] = useState('');
+
+	useEffect(() => {
+		if (user.userInfo) {
+			setIsLoading(false);
+		}
+	}, [user]);
 
 	const handleClick = (event) => setAnchorEl(event.currentTarget);
 	const handleClose = async () => {
@@ -43,16 +50,18 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	};
 
 	const onChangeInput = (e) => {
-		setSearchTerm(e.target.value);
+		setGameTag(e.target.value);
 	};
 
 	const searchSubmit = async (e) => {
 		e.preventDefault();
-		setSearch(searchTerm);
+		setSearch(`username[regex]=${gameTag}`);
 		navigate(ROUTES.SEARCH);
 	};
 
-	return (
+	return isLoading ? (
+		<div></div>
+	) : (
 		<AppBar
 			sx={{
 				position: 'static',
@@ -122,7 +131,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 							<Box
 								component="img"
 								alt="profile"
-								src={profileImage}
+								src={user.userInfo.user.picturePath}
 								height="32px"
 								width="32px"
 								borderRadius="50%"

@@ -1,7 +1,17 @@
 import { Box, Button, Rating, Typography, useTheme } from '@mui/material';
+import axios from 'axios';
+import format from 'date-fns/format';
+import getDay from 'date-fns/getDay';
+import enIE from 'date-fns/locale/en-IE';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
 import React, { useContext, useEffect, useState } from 'react';
+import { Calendar, Views, dateFnsLocalizer } from 'react-big-calendar';
+import { getMessage } from 'react-chat-engine';
+import { MultiChatWindow, getMessages } from 'react-chat-engine-advanced';
 import { useNavigate } from 'react-router-dom';
 import { GlobalState } from '../GlobalState';
+import '../chat.css';
 import { FlexBetween, Loading, SmallBox, Title } from '../components';
 import * as ROUTES from '../constants/routes';
 
@@ -11,12 +21,64 @@ const Dashboard = () => {
 	const [user] = state.userApi.user;
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(true);
+	const [haveTeam, setHaveTeam] = useState(false);
+	const [reviews, setReviews] = useState([]);
+	const [events, setEvents] = useState(undefined);
+	const token = localStorage.getItem('token');
+	const [gameTag, setGameTag] = useState('');
 
 	useEffect(() => {
 		if (user.userInfo) {
+			if (user.userInfo.team !== null) {
+				setHaveTeam(true);
+			}
+			if (user.userInfo.team === null) {
+				setHaveTeam(false);
+			}
+			getReviews();
+			getEvents();
 			setIsLoading(false);
 		}
 	}, [user]);
+
+	const locales = {
+		'en-IE': enIE,
+	};
+
+	const localizer = dateFnsLocalizer({
+		format,
+		parse,
+		startOfWeek,
+		getDay,
+		locales,
+	});
+
+	const getReviews = async () => {
+		const res = await axios.get(
+			`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
+		);
+		console.log(res.data);
+		setReviews(res.data);
+		console.log(reviews[0]);
+	};
+	const getEvents = async () => {
+		try {
+			const res = await axios.get(
+				`http://localhost:5000/api/event/${user.userInfo.team[0]._id}`,
+				{
+					headers: { Authorization: token },
+				}
+			);
+			res.data.forEach((el) => {
+				el.start = new Date(el.start);
+				el.end = new Date(el.end);
+			});
+			console.log(res.data);
+			setEvents(res.data);
+		} catch (err) {
+			alert(err.response.data.msg);
+		}
+	};
 
 	return isLoading ? (
 		<Loading />
@@ -29,87 +91,139 @@ const Dashboard = () => {
 				<SmallBox
 					title="Player Info"
 					first={user.userInfo.user.name}
-					second="25 years old"
+					second={`${user.userInfo.user.dob} years old`}
 					third={user.userInfo.user.position}
+					picture={user.userInfo.user.picturePath}
 				/>
-				<SmallBox title="Team Info" second="No Team" third="" />
-				<SmallBox title="Feed" first="" second="No New Feed" third="" />
-				<SmallBox title="Inbox" first="" second="No New Messages" third="" />
+				{haveTeam && (
+					<SmallBox
+						title="Team Info"
+						first={user.userInfo.team[0].name}
+						second=""
+						third=""
+						picture={user.userInfo.team[0].picturePath}
+					/>
+				)}
+				{!haveTeam && (
+					<SmallBox title="Team Info" first="You Have No Team" third="" />
+				)}
+				<SmallBox
+					title="Invites"
+					first="You Have No invites"
+					second=""
+					third=""
+				/>
 			</Box>
 			<Box display="flex" marginTop="1rem">
 				<Box
 					backgroundColor={theme.palette.background.alt}
 					p="1.5rem"
 					borderRadius="0.55rem"
+					mr="0.5rem"
 				>
 					<Typography variant="h4" sx={{ color: theme.palette.secondary[200] }}>
-						Rating
+						Overall Rating
 					</Typography>
 					<FlexBetween>
-						<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
+						<Typography
+							m=".5rem"
+							variant="h5"
+							sx={{ color: theme.palette.neutral[0] }}
+						>
 							Overall
 						</Typography>
 						<Rating
+							m=".5rem"
 							name="read-only"
 							value={user.userInfo.rating.overallAvg}
 							readOnly
 						/>
 					</FlexBetween>
 					<FlexBetween>
-						<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
+						<Typography
+							m=".5rem"
+							variant="h5"
+							sx={{ color: theme.palette.neutral[0] }}
+						>
 							Leadership
 						</Typography>
 						<Rating
+							m=".5rem"
 							name="read-only"
 							value={user.userInfo.rating.leadershipAvg}
 							readOnly
 						/>
 					</FlexBetween>
 					<FlexBetween>
-						<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
+						<Typography
+							m=".5rem"
+							variant="h5"
+							sx={{ color: theme.palette.neutral[0] }}
+						>
 							Drafting
 						</Typography>
 						<Rating
+							m=".5rem"
 							name="read-only"
 							value={user.userInfo.rating.draftingAvg}
 							readOnly
 						/>
 					</FlexBetween>
 					<FlexBetween>
-						<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
+						<Typography
+							m=".5rem"
+							variant="h5"
+							sx={{ color: theme.palette.neutral[0] }}
+						>
 							Knowledge
 						</Typography>
 						<Rating
+							m=".5rem"
 							name="read-only"
 							value={user.userInfo.rating.knowledgeAvg}
 							readOnly
 						/>
 					</FlexBetween>
 					<FlexBetween>
-						<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
+						<Typography
+							m=".5rem"
+							variant="h5"
+							sx={{ color: theme.palette.neutral[0] }}
+						>
 							Versatility
 						</Typography>
 						<Rating
+							m=".5rem"
 							name="read-only"
 							value={user.userInfo.rating.versatilityAvg}
 							readOnly
 						/>
 					</FlexBetween>
 					<FlexBetween>
-						<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
+						<Typography
+							m=".5rem"
+							variant="h5"
+							sx={{ color: theme.palette.neutral[0] }}
+						>
 							Technical
 						</Typography>
 						<Rating
+							m=".5rem"
 							name="read-only"
 							value={user.userInfo.rating.technicalAvg}
 							readOnly
 						/>
 					</FlexBetween>
 					<FlexBetween>
-						<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
+						<Typography
+							m=".5rem"
+							variant="h5"
+							sx={{ color: theme.palette.neutral[0] }}
+						>
 							Farming
 						</Typography>
 						<Rating
+							m=".5rem"
 							name="read-only"
 							value={user.userInfo.rating.farmingAvg}
 							readOnly
@@ -135,11 +249,202 @@ const Dashboard = () => {
 								},
 							}}
 							onClick={() => {
-								navigate(ROUTES.TEAM);
+								navigate(ROUTES.REVIEW);
 							}}
 						>
 							View More
 						</Button>
+					</Box>
+				</Box>
+				{reviews.length > 0 && (
+					<Box
+						backgroundColor={theme.palette.background.alt}
+						p="1rem"
+						borderRadius="0.55rem"
+						mr=".5rem"
+					>
+						<Typography
+							variant="h4"
+							sx={{ color: theme.palette.secondary[200] }}
+						>
+							Latest Review
+						</Typography>
+						<Box
+							marginTop="1rem"
+							backgroundColor={theme.palette.background.alt}
+						>
+							<FlexBetween>
+								<Box>
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										Leadership
+									</Typography>
+									<Rating
+										name="read-only"
+										value={reviews[0].leadership}
+										readOnly
+									/>
+								</Box>
+								<Box>
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										Drafting
+									</Typography>
+									<Rating
+										name="read-only"
+										value={reviews[0].drafting}
+										readOnly
+									/>
+								</Box>
+								<Box>
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										Knowledge
+									</Typography>
+									<Rating
+										name="read-only"
+										value={reviews[0].knowledge}
+										readOnly
+									/>
+								</Box>
+								<Box>
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										Versatility
+									</Typography>
+									<Rating
+										name="read-only"
+										value={reviews[0].versatility}
+										readOnly
+									/>
+								</Box>
+								<Box>
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										Technical
+									</Typography>
+									<Rating
+										name="read-only"
+										value={reviews[0].technical}
+										readOnly
+									/>
+								</Box>
+								<Box>
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										Farming
+									</Typography>
+									<Rating
+										name="read-only"
+										value={reviews[0].farming}
+										readOnly
+									/>
+								</Box>
+							</FlexBetween>
+							<Box
+								marginTop="1rem"
+								backgroundColor={theme.palette.background.alt}
+							>
+								<Typography
+									variant="h5"
+									sx={{ color: theme.palette.neutral[0] }}
+								>
+									{reviews[0].content}
+								</Typography>
+								<Typography
+									marginTop="1rem"
+									variant="h6"
+									sx={{ color: theme.palette.neutral[0] }}
+								>
+									By: {reviews[0].reviewer}
+								</Typography>
+							</Box>
+						</Box>
+					</Box>
+				)}
+				{reviews.length === 0 && (
+					<Box
+						backgroundColor={theme.palette.background.alt}
+						p="1rem"
+						borderRadius="0.55rem"
+						mr=".5rem"
+						width="600px"
+					>
+						<Typography
+							mb=".5rem"
+							variant="h4"
+							sx={{ color: theme.palette.secondary[200] }}
+						>
+							Latest Review
+						</Typography>
+						<Typography variant="h6" sx={{ color: 'white' }}>
+							This person has no reviews
+						</Typography>
+					</Box>
+				)}
+				<Box
+					backgroundColor={theme.palette.background.alt}
+					p=".5rem"
+					borderRadius="0.55rem"
+				>
+					<Typography
+						mb=".5rem"
+						variant="h4"
+						sx={{ color: theme.palette.secondary[200] }}
+					>
+						Agenda
+					</Typography>
+					<Box
+						sx={{
+							'& .rbc-btn-group button': {
+								color: 'white',
+								':hover': {
+									cursor: 'pointer',
+									backgroundColor: theme.palette.primary[600],
+								},
+							},
+							'& .rbc-btn-group button:focus': {
+								backgroundColor: 'inherit',
+							},
+							'& .rbc-toolbar button.rbc-active': {
+								backgroundColor: theme.palette.secondary[300],
+							},
+							'& .rbc-off-range-bg': {
+								backgroundColor: theme.palette.primary[600],
+							},
+							'& .rbc-today': {
+								backgroundColor: theme.palette.primary.light,
+							},
+							'& .rbc-toolbar-label': {
+								color: 'white',
+							},
+							'& .rbc-agenda-empty': {
+								color: 'white',
+							},
+							'& .rbc-agenda-table': {
+								color: 'white',
+							},
+						}}
+					>
+						<Calendar
+							localizer={localizer}
+							events={events}
+							views={['agenda']}
+							defaultView={'agenda'}
+							defaultDate={new Date()}
+						/>
 					</Box>
 				</Box>
 			</Box>
