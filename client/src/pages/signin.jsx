@@ -1,18 +1,7 @@
-import {
-	Autocomplete,
-	Box,
-	FormControl,
-	IconButton,
-	InputLabel,
-	MenuItem,
-	Select,
-	TextField,
-	Typography,
-	useTheme,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { FlexBetween, Form, Header, Loading, Title } from '../components';
+import { FlexBetween, Form, Header } from '../components';
 import * as ROUTES from '../constants/routes';
 import logo from '../logo.png';
 export default function SignIn() {
@@ -29,9 +18,12 @@ export default function SignIn() {
 	const handleSignin = async (event) => {
 		event.preventDefault();
 		try {
-			const res = axios.post('http://localhost:5000/api/user/login', {
-				...user,
-			});
+			const res = axios.post(
+				'https://prj400-esports.onrender.com/api/user/login',
+				{
+					...user,
+				}
+			);
 
 			localStorage.setItem('token', (await res).data.accessToken);
 

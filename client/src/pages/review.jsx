@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { FlexBetween, Title } from '../components';
 import { GlobalState } from '../GlobalState';
+import { FlexBetween, Title } from '../components';
 
 function Review() {
 	const theme = useTheme();
@@ -25,9 +25,8 @@ function Review() {
 		if (!ownReview) {
 			try {
 				const res = await axios.get(
-					`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
+					`https://prj400-esports.onrender.com/api/review/get_reviews/${user.userInfo.user._id}`
 				);
-				console.log(res.data);
 				setReviews(res.data);
 			} catch (err) {
 				alert(err.response.data.msg);
@@ -35,12 +34,11 @@ function Review() {
 		} else {
 			try {
 				const res = await axios.get(
-					'http://localhost:5000/api/review/my_reviews',
+					'https://prj400-esports.onrender.com/api/review/my_reviews',
 					{
 						headers: { Authorization: token },
 					}
 				);
-				console.log(res.data);
 				setReviews(res.data);
 			} catch (err) {
 				alert(err.response.data.msg);

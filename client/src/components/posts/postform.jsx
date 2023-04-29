@@ -1,11 +1,7 @@
 import {
-	AttachFileOutlined,
 	DeleteOutlined,
 	EditOutlined,
-	GifBoxOutlined,
 	ImageOutlined,
-	MicOutlined,
-	MoreHorizOutlined,
 } from '@mui/icons-material';
 import {
 	Box,
@@ -14,7 +10,6 @@ import {
 	IconButton,
 	InputBase,
 	Typography,
-	useMediaQuery,
 	useTheme,
 } from '@mui/material';
 import axios from 'axios';
@@ -27,7 +22,6 @@ import FlexBetween from '../flexbetween';
 const PostForm = () => {
 	const theme = useTheme();
 	const state = useContext(GlobalState);
-	const isNonMobileScreens = useMediaQuery('(min-width: 1000px)');
 	const [isImage, setIsImage] = useState(false);
 	const [image, setImage] = useState(null);
 	const [post, setPost] = useState('');
@@ -46,12 +40,9 @@ const PostForm = () => {
 		if (image) {
 			formData.append('file', image);
 		}
-		for (const [key, value] of formData.entries()) {
-			console.log(`${key}: ${value}`);
-		}
 		setIsLoading(true);
 		const response = await axios.post(
-			'http://localhost:5000/api/post/create',
+			'https://prj400-esports.onrender.com/api/post/create',
 			formData,
 			{
 				headers: {

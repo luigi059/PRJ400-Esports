@@ -6,9 +6,7 @@ import enIE from 'date-fns/locale/en-IE';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import React, { useContext, useEffect, useState } from 'react';
-import { Calendar, Views, dateFnsLocalizer } from 'react-big-calendar';
-import { getMessage } from 'react-chat-engine';
-import { MultiChatWindow, getMessages } from 'react-chat-engine-advanced';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { useNavigate } from 'react-router-dom';
 import { GlobalState } from '../GlobalState';
 import '../chat.css';
@@ -25,7 +23,6 @@ const Dashboard = () => {
 	const [reviews, setReviews] = useState([]);
 	const [events, setEvents] = useState(undefined);
 	const token = localStorage.getItem('token');
-	const [gameTag, setGameTag] = useState('');
 
 	useEffect(() => {
 		if (user.userInfo) {
@@ -55,16 +52,14 @@ const Dashboard = () => {
 
 	const getReviews = async () => {
 		const res = await axios.get(
-			`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
+			`https://prj400-esports.onrender.com/api/review/get_reviews/${user.userInfo.user._id}`
 		);
-		console.log(res.data);
 		setReviews(res.data);
-		console.log(reviews[0]);
 	};
 	const getEvents = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/event/${user.userInfo.team[0]._id}`,
+				`https://prj400-esports.onrender.com/api/event/${user.userInfo.team[0]._id}`,
 				{
 					headers: { Authorization: token },
 				}
@@ -73,7 +68,6 @@ const Dashboard = () => {
 				el.start = new Date(el.start);
 				el.end = new Date(el.end);
 			});
-			console.log(res.data);
 			setEvents(res.data);
 		} catch (err) {
 			alert(err.response.data.msg);

@@ -8,11 +8,9 @@ import {
 	HomeOutlined,
 	ReviewsOutlined,
 	SearchOutlined,
-	SettingsOutlined,
 } from '@mui/icons-material';
 import {
 	Box,
-	Divider,
 	Drawer,
 	IconButton,
 	List,

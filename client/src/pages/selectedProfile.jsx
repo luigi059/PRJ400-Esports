@@ -47,7 +47,7 @@ function SelectedProfile() {
 	const getInfo = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/user/info/${params.id}`,
+				`https://prj400-esports.onrender.com/api/user/info/${params.id}`,
 				{
 					headers: { Authorization: token },
 				}
@@ -61,7 +61,7 @@ function SelectedProfile() {
 	const getReviews = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/review/get_reviews/${params.id}`
+				`https://prj400-esports.onrender.com/api/review/get_reviews/${params.id}`
 			);
 			setReviews(res.data);
 		} catch (err) {
@@ -72,12 +72,11 @@ function SelectedProfile() {
 	const getPosts = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/post/get/${params.id}`,
+				`https://prj400-esports.onrender.com/api/post/get/${params.id}`,
 				{
 					headers: { Authorization: token },
 				}
 			);
-			console.log(res.data);
 			setPost(res.data);
 		} catch (err) {
 			alert(err.response.data.msg);
@@ -93,7 +92,6 @@ function SelectedProfile() {
 		setIsLoading(true);
 		if (player.user && reviews) {
 			if (player.team !== null) {
-				console.log(player.team);
 				setHaveTeam(true);
 			}
 			if (player.team === null) {
@@ -144,7 +142,7 @@ function SelectedProfile() {
 		};
 		try {
 			axios.post(
-				'http://localhost:5000/api/review/create',
+				'https://prj400-esports.onrender.com/api/review/create',
 				{
 					...newReview,
 				},

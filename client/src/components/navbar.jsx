@@ -30,7 +30,6 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [user] = state.userApi.user;
 	const [search, setSearch] = state.searchAPI.search;
-	const [players, setPlayers] = state.searchAPI.players;
 	const isOpen = Boolean(anchorEl);
 	const [isLoading, setIsLoading] = useState(true);
 	const [gameTag, setGameTag] = useState('');
@@ -44,7 +43,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const handleClick = (event) => setAnchorEl(event.currentTarget);
 	const handleClose = async () => {
 		setAnchorEl(null);
-		await axios.get('http://localhost:5000/api/user/logout');
+		await axios.get('https://prj400-esports.onrender.com/api/user/logout');
 		localStorage.removeItem('token');
 		window.location.href = '/';
 	};

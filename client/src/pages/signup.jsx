@@ -57,14 +57,12 @@ export default function SignUp() {
 
 	const onChangeInput = (e) => {
 		const { name, value } = e.target;
-		console.log();
 		setUser({ ...user, [name]: value });
 	};
 
 	const fetchNationalities = async () => {
 		try {
 			const countries = await axios.get('https://restcountries.com/v3.1/all');
-			console.log(countries);
 			const fetchedNationalities = countries.data.map(
 				(country) => country.name.common
 			);
@@ -90,14 +88,10 @@ export default function SignUp() {
 			formData.append('file', image);
 		}
 
-		for (const [key, value] of formData.entries()) {
-			console.log(`${key}: ${value}`);
-		}
-
 		event.preventDefault();
 		try {
 			const res = await axios.post(
-				'http://localhost:5000/api/user/register',
+				'https://prj400-esports.onrender.com/api/user/register',
 				formData,
 				{
 					headers: {

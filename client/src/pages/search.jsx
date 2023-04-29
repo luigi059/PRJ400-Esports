@@ -29,14 +29,12 @@ function Search() {
 	const [isGameTag, setIsGameTag] = useState(false);
 	const [gameTag, setGameTag] = useState('');
 	const [isAge, setIsAge] = useState(false);
-	const [age, setAge] = useState('');
 	const [isPosition, setIsPosition] = useState(false);
 	const [position, setPosition] = useState('');
 	const [isNationality, setIsNationality] = useState(false);
 	const [nationality, setNationality] = useState('');
 	const [isTeam, setIsTeam] = useState(false);
 	const [isVersatility, setIsVersatility] = useState(false);
-	const [team, setTeam] = useState('');
 
 	const handleRowClick = (params) => {
 		navigate(`/profile/${params.id}`);
@@ -50,7 +48,6 @@ function Search() {
 		setAnchorEl(null);
 	};
 	const addParams = (params) => {
-		console.log(params);
 		switch (params) {
 			case 1:
 				setIsName(true);

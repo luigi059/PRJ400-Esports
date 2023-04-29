@@ -26,9 +26,12 @@ const Post = ({
 	const token = localStorage.getItem('token');
 
 	const handleDelete = () => {
-		axios.delete(`http://localhost:5000/api/post/delete/${postId}`, {
-			headers: { Authorization: token },
-		});
+		axios.delete(
+			`https://prj400-esports.onrender.com/api/post/delete/${postId}`,
+			{
+				headers: { Authorization: token },
+			}
+		);
 		window.location.reload(false);
 	};
 
