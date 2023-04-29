@@ -76,7 +76,6 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-	console.log('Welcome to LogIn');
 	try {
 		const { email, password } = req.body;
 		// 1) validation
@@ -114,7 +113,6 @@ const getUser = async (req, res) => {
 		technicalAvg,
 		farmingAvg;
 	try {
-		console.log('Welcome to userinfo');
 		let userID;
 		if (req.params.userID !== 'none') {
 			userID = req.params.userID;
@@ -151,12 +149,8 @@ const getUser = async (req, res) => {
 		user.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
 
 		const posts = await Post.find({ userId: req.user.id });
-		console.log(posts);
-
 		if (user.teamId !== null) {
-			console.log(user.teamId);
 			const team = await Team.find({ _id: user.teamId });
-			console.log(team);
 			const userInfo = {
 				userInfo: {
 					user,
@@ -210,7 +204,6 @@ const logout = async (req, res) => {
 
 // Authentication via cookies
 const refreshToken = (req, res) => {
-	console.log('Welcome to refreshToken');
 	try {
 		const rf_token = req.cookies.refreshtoken;
 		if (!rf_token)

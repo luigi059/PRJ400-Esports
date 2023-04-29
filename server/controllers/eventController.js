@@ -1,7 +1,6 @@
 import Event from '../models/eventModel.js';
 
 const getEvent = async (req, res) => {
-	console.log('Welcome to GetEvent');
 	const id = req.params.id;
 	try {
 		const events = await Event.find({ eventOwner: id });
@@ -12,7 +11,6 @@ const getEvent = async (req, res) => {
 };
 
 const createEvent = async (req, res) => {
-	console.log('Welcome to CreateEvent');
 	const { title, start, end, description, teamId } = req.body;
 	try {
 		const newEvent = new Event({

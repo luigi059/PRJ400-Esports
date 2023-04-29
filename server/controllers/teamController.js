@@ -3,7 +3,6 @@ import Team from '../models/teamModel.js';
 import User from '../models/userModel.js';
 
 const createTeam = async (req, res) => {
-	console.log('Welcome to CreateTeam');
 	try {
 		if (req.file) {
 			const { name } = req.body;
@@ -55,9 +54,7 @@ const createTeam = async (req, res) => {
 };
 
 const leaveTeam = async (req, res) => {
-	console.log('Welcome to Leave Team');
 	try {
-		console.log(req.params.id);
 		const user = await User.findById(req.params.id);
 		const teamMembers = await User.find({ teamId: user.teamId });
 		if (teamMembers.length == 1) {
@@ -84,7 +81,6 @@ const leaveTeam = async (req, res) => {
 };
 
 const getTeamMembers = async (req, res) => {
-	console.log('Welcome to Leave Team');
 	try {
 		const teamMembers = await User.find({ teamId: req.params.id });
 

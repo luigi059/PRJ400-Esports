@@ -1,8 +1,6 @@
 import Review from '../models/reviewModel.js';
 
 const createReview = async (req, res) => {
-	console.log('Welcome to Create Review');
-	console.log(req.user);
 	try {
 		const {
 			reviewee,
@@ -36,7 +34,6 @@ const createReview = async (req, res) => {
 };
 
 const getReviews = async (req, res) => {
-	console.log('Welcome to getReviews');
 	try {
 		const { revieweeId } = req.params;
 		const reviews = await Review.find({ reviewee: revieweeId });
@@ -49,7 +46,6 @@ const getReviews = async (req, res) => {
 };
 
 const getOwnReviews = async (req, res) => {
-	console.log('Welcome to get Own Reviews');
 	try {
 		const ownReviews = await Review.find({ reviewerId: req.user.id });
 		if (!ownReviews) return res.status(400).json({ msg: 'No Reviews Exist' });
@@ -61,10 +57,8 @@ const getOwnReviews = async (req, res) => {
 };
 
 const deleteReview = async (req, res) => {
-	console.log('Welcome to Delete Review');
 	const { revieweeId } = req.params;
-	console.log(revieweeId);
-	console.log(req.user.id);
+
 	try {
 		const review = await Review.deleteOne({
 			reviewer: req.user.id,
