@@ -83,6 +83,12 @@ const leaveTeam = async (req, res) => {
 const getTeamMembers = async (req, res) => {
 	try {
 		const teamMembers = await User.find({ teamId: req.params.id });
+		const today = new Date();
+		teamMembers.forEach((el) => {
+			const date = new Date(el.dob);
+			var ageDate = new Date(today - date);
+			el.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
+		});
 
 		res.status(200).json(teamMembers);
 	} catch (err) {

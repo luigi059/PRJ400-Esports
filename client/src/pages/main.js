@@ -6,6 +6,7 @@ import {
 	Feed,
 	Home,
 	Inbox,
+	Invite,
 	Review,
 	Schedule,
 	Search,
@@ -30,6 +31,7 @@ function Pages() {
 				<Route path="/inbox" element={<Inbox />} />
 				<Route path="/feed" element={<Feed />} />
 				<Route path="/schedule" element={<Schedule />} />
+				<Route path="/invites" element={<Invite />} />
 			</Route>
 		</Routes>
 	);

@@ -46,13 +46,13 @@ function Schedule() {
 
 	useEffect(() => {
 		if (user.userInfo) {
-			if (user.userInfo.team !== null) {
+			if (user.userInfo.user.teamId !== null) {
 				setHaveTeam(true);
+				getEvents();
 			}
-			if (user.userInfo.team === null) {
+			if (user.userInfo.user.teamId === null) {
 				setHaveTeam(false);
 			}
-			getEvents();
 			setIsLoading(false);
 		}
 	}, [user]);
@@ -98,7 +98,7 @@ function Schedule() {
 	};
 	const deleteEvent = async () => {
 		const res = await axios.delete(
-			`http://localhost:5000/api/event/delete/${eventId}`,
+			`https://prj400-esports.onrender.com/api/event/delete/${eventId}`,
 			{
 				headers: { Authorization: token },
 			}
@@ -115,11 +115,12 @@ function Schedule() {
 	const getEvents = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/event/${user.userInfo.team[0]._id}`,
+				`https://prj400-esports.onrender.com/api/event/${user.userInfo.user.teamId}`,
 				{
 					headers: { Authorization: token },
 				}
 			);
+			console.log(res.data);
 			res.data.forEach((el) => {
 				el.start = new Date(el.start);
 				el.end = new Date(el.end);
@@ -141,7 +142,7 @@ function Schedule() {
 
 		if (isCreating) {
 			const res = await axios.post(
-				'http://localhost:5000/api/event/create',
+				'https://prj400-esports.onrender.com/api/event/create',
 				{
 					...event,
 				},
@@ -156,7 +157,7 @@ function Schedule() {
 			setEvents(res.data);
 		} else {
 			const res = await axios.put(
-				`http://localhost:5000/api/event/update/${eventId}`,
+				`https://prj400-esports.onrender.com/api/event/update/${eventId}`,
 				{
 					...event,
 				},

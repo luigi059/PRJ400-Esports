@@ -44,7 +44,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 		setAnchorEl(null);
 	};
 	const logout = async () => {
-		await axios.get('http://localhost:5000/api/user/logout');
+		await axios.get('https://prj400-esports.onrender.com/api/user/logout');
 		localStorage.removeItem('token');
 		window.location.href = '/';
 	};

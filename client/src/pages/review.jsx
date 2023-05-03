@@ -25,7 +25,7 @@ function Review() {
 		if (!ownReview) {
 			try {
 				const res = await axios.get(
-					`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
+					`https://prj400-esports.onrender.com/api/review/get_reviews/${user.userInfo.user._id}`
 				);
 				setReviews(res.data);
 			} catch (err) {
@@ -34,7 +34,7 @@ function Review() {
 		} else {
 			try {
 				const res = await axios.get(
-					'http://localhost:5000/api/review/my_reviews',
+					'https://prj400-esports.onrender.com/api/review/my_reviews',
 					{
 						headers: { Authorization: token },
 					}

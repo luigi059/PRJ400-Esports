@@ -19,7 +19,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useNavigate } from 'react-router-dom';
-import { FlexBetween, Form, Header } from '../components';
+import { FlexBetween, Form, Header, Loading } from '../components';
 import * as ROUTES from '../constants/routes';
 import logo from '../logo.png';
 
@@ -29,7 +29,8 @@ export default function SignUp() {
 	const [isImage, setIsImage] = useState(false);
 	const [image, setImage] = useState(null);
 	const [nationalities, setNationalities] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const mediumMain = theme.palette.secondary[100];
 	const medium = theme.palette.secondary.main;
 
@@ -75,6 +76,8 @@ export default function SignUp() {
 	};
 
 	const handleSignUp = async (event) => {
+		setIsLoading(true);
+
 		const formData = new FormData();
 		// eslint-disable-next-line no-restricted-globals
 		formData.append('name', user.name);
@@ -90,18 +93,7 @@ export default function SignUp() {
 
 		event.preventDefault();
 		try {
-			const res = await axios.post(
-				'http://localhost:5000/api/user/register',
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
-				}
-			);
-			localStorage.setItem('token', res.data.accessToken);
-
-			await axios.post(
+			/* 			await axios.post(
 				'https://api.chatengine.io/users/',
 				{
 					username: user.tag,
@@ -112,14 +104,27 @@ export default function SignUp() {
 						'PRIVATE-KEY': '34bb7d03-e047-4506-9dd8-2b0854bfb7cf',
 					},
 				}
+			); */
+
+			const res = await axios.post(
+				'https://prj400-esports.onrender.com/api/user/register',
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
 			);
+			localStorage.setItem('token', res.data.accessToken);
 
 			navigate(ROUTES.PROFILE);
 		} catch (err) {
 			alert(err.response.data.msg);
 		}
 	};
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<>
 			<Box>
 				<Box sx={{ margin: '3rem' }}>

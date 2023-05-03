@@ -28,12 +28,12 @@ const Dashboard = () => {
 		if (user.userInfo) {
 			if (user.userInfo.team !== null) {
 				setHaveTeam(true);
+				getEvents();
 			}
 			if (user.userInfo.team === null) {
 				setHaveTeam(false);
 			}
 			getReviews();
-			getEvents();
 			setIsLoading(false);
 		}
 	}, [user]);
@@ -52,14 +52,14 @@ const Dashboard = () => {
 
 	const getReviews = async () => {
 		const res = await axios.get(
-			`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
+			`https://prj400-esports.onrender.com/api/review/get_reviews/${user.userInfo.user._id}`
 		);
 		setReviews(res.data);
 	};
 	const getEvents = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/event/${user.userInfo.team[0]._id}`,
+				`https://prj400-esports.onrender.com/api/event/${user.userInfo.user.teamId}`,
 				{
 					headers: { Authorization: token },
 				}
@@ -101,12 +101,20 @@ const Dashboard = () => {
 				{!haveTeam && (
 					<SmallBox title="Team Info" first="You Have No Team" third="" />
 				)}
-				<SmallBox
-					title="Invites"
-					first="You Have No invites"
-					second=""
-					third=""
-				/>
+				{user.userInfo.invites.length > 0 && (
+					<SmallBox
+						title="Invites"
+						first={`You have ${user.userInfo.invites.length} Pending Invites`}
+						third=""
+					/>
+				)}
+				{user.userInfo.invites.length === 0 && (
+					<SmallBox
+						title="Invites"
+						first="You Have No Pending Invites"
+						third=""
+					/>
+				)}
 			</Box>
 			<Box display="flex" marginTop="1rem">
 				<Box

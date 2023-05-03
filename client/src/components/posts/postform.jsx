@@ -42,7 +42,7 @@ const PostForm = () => {
 		}
 		setIsLoading(true);
 		const response = await axios.post(
-			'http://localhost:5000/api/post/create',
+			'https://prj400-esports.onrender.com/api/post/create',
 			formData,
 			{
 				headers: {

@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import cloudinary from 'cloudinary';
 import jwt from 'jsonwebtoken';
+import Invite from '../models/inviteModel.js';
 import Post from '../models/postModel.js';
 import Review from '../models/reviewModel.js';
 import Team from '../models/teamModel.js';
@@ -148,9 +149,14 @@ const getUser = async (req, res) => {
 		var ageDate = new Date(today - date);
 		user.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
 
-		const posts = await Post.find({ userId: req.user.id }).sort({
+		const posts = await Post.find({ userId: userID }).sort({
 			createdAt: -1,
 		});
+
+		const invites = await Invite.find({ inviteeId: userID }).sort({
+			createdAt: -1,
+		});
+
 		if (user.teamId !== null) {
 			const team = await Team.find({ _id: user.teamId });
 			const userInfo = {
@@ -167,6 +173,7 @@ const getUser = async (req, res) => {
 					},
 					posts,
 					team,
+					invites,
 				},
 			};
 			res.json(userInfo);
@@ -185,6 +192,7 @@ const getUser = async (req, res) => {
 					},
 					posts,
 					team: null,
+					invites,
 				},
 			};
 			res.json(userInfo);

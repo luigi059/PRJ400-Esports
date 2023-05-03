@@ -34,7 +34,6 @@ function Search() {
 	const [isNationality, setIsNationality] = useState(false);
 	const [nationality, setNationality] = useState('');
 	const [isTeam, setIsTeam] = useState(false);
-	const [isVersatility, setIsVersatility] = useState(false);
 
 	const handleRowClick = (params) => {
 		navigate(`/profile/${params.id}`);
@@ -428,31 +427,6 @@ function Search() {
 									color: theme.palette.secondary[300],
 								}}
 							/>
-						</Box>
-					)}
-					{isVersatility && (
-						<Box
-							borderRadius="5px"
-							gap="3rem"
-							p="0.5rem 1.5rem"
-							m="0.5rem"
-							sx={{
-								width: '800px',
-								border: '1px solid',
-								borderColor: theme.palette.primary.main,
-							}}
-						>
-							<FlexBetween>
-								<Title subtitle="Versatility"></Title>
-								<Delete
-									onClick={() => deleteParams(7)}
-									sx={{
-										cursor: 'pointer',
-										color: theme.palette.secondary.main,
-									}}
-								/>
-							</FlexBetween>
-							<Rating name="versatility" defaultValue={0} precision={0.5} />
 						</Box>
 					)}
 				</Box>

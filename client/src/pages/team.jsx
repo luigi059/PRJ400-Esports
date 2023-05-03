@@ -77,7 +77,7 @@ function Team() {
 
 	const getPlayers = async () => {
 		const res = await axios.get(
-			`http://localhost:5000/api/team/${user.userInfo.user.teamId}`,
+			`https://prj400-esports.onrender.com/api/team/${user.userInfo.user.teamId}`,
 			{
 				headers: { Authorization: token },
 			}
@@ -106,7 +106,7 @@ function Team() {
 
 	const handleLeave = async () => {
 		const response = await axios.patch(
-			`http://localhost:5000/api/team/leave/${user.userInfo.user._id}`,
+			`https://prj400-esports.onrender.com/api/team/leave/${user.userInfo.user._id}`,
 			{
 				headers: {
 					'Content-Type': 'multipart/form-data',
@@ -130,7 +130,7 @@ function Team() {
 		}
 
 		const response = await axios.post(
-			'http://localhost:5000/api/team/create',
+			'https://prj400-esports.onrender.com/api/team/create',
 			formData,
 			{
 				headers: {

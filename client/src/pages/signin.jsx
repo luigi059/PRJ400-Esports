@@ -1,14 +1,18 @@
 import { Box } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { FlexBetween, Form, Header } from '../components';
+import { useNavigate } from 'react-router-dom';
+import { FlexBetween, Form, Header, Loading } from '../components';
 import * as ROUTES from '../constants/routes';
 import logo from '../logo.png';
+
 export default function SignIn() {
 	const [user, setUser] = useState({
 		email: '',
 		password: '',
 	});
+	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
 
 	const onChangeInput = (e) => {
 		const { name, value } = e.target;
@@ -16,21 +20,26 @@ export default function SignIn() {
 	};
 
 	const handleSignin = async (event) => {
+		setIsLoading(true);
 		event.preventDefault();
 		try {
-			const res = axios.post('http://localhost:5000/api/user/login', {
-				...user,
-			});
-
+			const res = axios.post(
+				'https://prj400-esports.onrender.com/api/user/login',
+				{
+					...user,
+				}
+			);
 			localStorage.setItem('token', (await res).data.accessToken);
 
-			window.location.href = ROUTES.PROFILE;
+			navigate(ROUTES.PROFILE);
 		} catch (err) {
 			alert(err.response.data.msg);
 		}
 	};
 
-	return (
+	return isLoading ? (
+		<Loading />
+	) : (
 		<>
 			<Box>
 				<Box sx={{ margin: '3rem' }}>

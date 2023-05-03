@@ -4,6 +4,7 @@ import {
 	ChevronLeft,
 	ChevronRightOutlined,
 	DynamicFeedOutlined,
+	GroupAddOutlined,
 	Groups2Outlined,
 	HomeOutlined,
 	ReviewsOutlined,
@@ -59,6 +60,11 @@ const navItems = [
 		text: 'Schedule',
 		link: 'schedule',
 		icon: <CalendarMonthOutlined />,
+	},
+	{
+		text: 'Invites',
+		link: 'invites',
+		icon: <GroupAddOutlined />,
 	},
 ];
 

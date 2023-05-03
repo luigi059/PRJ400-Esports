@@ -5,3 +5,4 @@ export const PROFILE = '/profile';
 export const REVIEW = '/reviews';
 export const SEARCH = '/search';
 export const TEAM = '/team';
+export const INVITE = '/invites';

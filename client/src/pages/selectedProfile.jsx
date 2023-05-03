@@ -27,6 +27,7 @@ function SelectedProfile() {
 	const params = useParams();
 	const state = useContext(GlobalState);
 	const [user] = state.userApi.user;
+	const [refreshData, setRefreshData] = state.userApi.refreshData;
 	const [player, setPlayer] = useState({});
 	const [reviews, setReviews] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
@@ -43,17 +44,20 @@ function SelectedProfile() {
 	const token = localStorage.getItem('token');
 	const secondary = theme.palette.secondary[100];
 	const [haveTeam, setHaveTeam] = useState(false);
+	const [userHasTeam, setUserHasTeam] = useState(false);
 	const medium = theme.palette.secondary.main;
+	const [openSendInvite, setOpenSendInvite] = React.useState(false);
+	const [inviteDescription, setInviteDescription] = React.useState(null);
 
 	const getInfo = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/user/info/${params.id}`,
+				`https://prj400-esports.onrender.com/api/user/info/${params.id}`,
 				{
 					headers: { Authorization: token },
 				}
 			);
-			console.log(res.data.userInfo);
+			console.log(res.data);
 			setPlayer(res.data.userInfo);
 		} catch (err) {
 			alert(err.response.data.msg);
@@ -63,7 +67,7 @@ function SelectedProfile() {
 	const getReviews = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/review/get_reviews/${params.id}`
+				`https://prj400-esports.onrender.com/api/review/get_reviews/${params.id}`
 			);
 			setReviews(res.data);
 		} catch (err) {
@@ -74,7 +78,7 @@ function SelectedProfile() {
 	const getPosts = async () => {
 		try {
 			const res = await axios.get(
-				`http://localhost:5000/api/post/get/${params.id}`,
+				`https://prj400-esports.onrender.com/api/post/get/${params.id}`,
 				{
 					headers: { Authorization: token },
 				}
@@ -92,16 +96,22 @@ function SelectedProfile() {
 	}, []);
 	useEffect(() => {
 		setIsLoading(true);
-		if (player.user && reviews) {
+		if (player.user && reviews && user.userInfo) {
 			if (player.team !== null) {
 				setHaveTeam(true);
 			}
 			if (player.team === null) {
 				setHaveTeam(false);
 			}
+			if (user.userInfo.user.teamId !== null) {
+				setUserHasTeam(true);
+			}
+			if (user.userInfo.user.teamId === null) {
+				setUserHasTeam(false);
+			}
 			setIsLoading(false);
 		}
-	}, [player, reviews]);
+	}, [player, reviews, user]);
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -130,6 +140,14 @@ function SelectedProfile() {
 	const closeReview = () => {
 		setOpenReview(false);
 	};
+
+	const sendInvite = () => {
+		setOpenSendInvite(true);
+	};
+	const closeSendInvite = () => {
+		setOpenSendInvite(false);
+	};
+
 	const submitReview = () => {
 		const newReview = {
 			reviewee: player.user._id,
@@ -145,7 +163,7 @@ function SelectedProfile() {
 		};
 		try {
 			axios.post(
-				'http://localhost:5000/api/review/create',
+				'https://prj400-esports.onrender.com/api/review/create',
 				{
 					...newReview,
 				},
@@ -156,6 +174,33 @@ function SelectedProfile() {
 		}
 		setOpenReview(false);
 		getReviews();
+	};
+	const handleInvite = async () => {
+		const newInvite = {
+			inviteeId: player.user._id,
+			teamId: user.userInfo.user.teamId,
+			teamName: user.userInfo.team[0].name,
+			teamPicture: user.userInfo.team[0].picturePath,
+			inviterName: user.userInfo.user.name,
+			description: inviteDescription,
+		};
+		try {
+			const response = await axios.post(
+				'https://prj400-esports.onrender.com/api/invite/create',
+				{
+					...newInvite,
+				},
+				{ headers: { Authorization: token } }
+			);
+			setOpenSendInvite(false);
+			if (response) {
+				if (refreshData) setRefreshData(false);
+				else setRefreshData(true);
+				setIsLoading(true);
+			}
+		} catch (err) {
+			alert(err.response.data.msg);
+		}
 	};
 
 	return isLoading ? (
@@ -270,12 +315,63 @@ function SelectedProfile() {
 								third=""
 							/>
 						)}
-						<SmallBox
-							title="Invites"
-							first="This Person Has No Pending invites"
-							second=""
-							third=""
-						/>
+						<Box
+							p="1.25rem 1rem"
+							flex="1"
+							backgroundColor={theme.palette.background.alt}
+							borderRadius="0.55rem"
+						>
+							<Box mr="1rem">
+								<Typography
+									variant="h4"
+									sx={{ color: theme.palette.secondary[200] }}
+								>
+									Invites
+								</Typography>
+								{player.invites.length === 0 && (
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										This Person Has No Pending Invites
+									</Typography>
+								)}
+								{player.invites.length > 0 && (
+									<Typography
+										variant="h5"
+										sx={{ color: theme.palette.neutral[0] }}
+									>
+										This Person Has {player.invites.length} Pending Invites
+									</Typography>
+								)}
+								{userHasTeam && (
+									<Box
+										sx={{
+											marginTop: '1rem',
+											display: 'flex',
+											justifyContent: 'center',
+										}}
+									>
+										<Button
+											variant="contained"
+											sx={{
+												backgroundColor: theme.palette.secondary.light,
+												color: theme.palette.background.alt,
+												fontSize: '.75rem',
+												fontWeight: 'bold',
+												padding: '5 10px',
+												':hover': {
+													bgcolor: theme.palette.secondary[400],
+												},
+											}}
+											onClick={sendInvite}
+										>
+											Send Invite
+										</Button>
+									</Box>
+								)}
+							</Box>
+						</Box>
 					</Box>
 					<Box display="flex" marginTop="1rem">
 						<Box
@@ -881,6 +977,56 @@ function SelectedProfile() {
 					<DialogActions>
 						<Button onClick={closeReview}>Cancel</Button>
 						<Button onClick={submitReview}>Submit</Button>
+					</DialogActions>
+				</Dialog>
+			</Box>
+			<Box>
+				<Dialog
+					open={openSendInvite}
+					onClose={closeSendInvite}
+					sx={{
+						'& .MuiDialog-container': {
+							'& .MuiPaper-root': {
+								backgroundColor: theme.palette.background.alt,
+								width: '100%',
+								maxWidth: '700px',
+							},
+							'& .MuiButtonBase-root': {
+								color: 'white',
+								'&:hover': {
+									backgroundColor: theme.palette.primary[400],
+								},
+							},
+						},
+					}}
+				>
+					<DialogTitle color={`${medium}`}>Send Invite</DialogTitle>
+					<DialogContent>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="name"
+							label="Invite Text"
+							autoComplete="off"
+							type="text"
+							fullWidth
+							variant="standard"
+							onChange={(e) => {
+								setInviteDescription(e.target.value);
+							}}
+							sx={{
+								'& label': {
+									color: 'white',
+								},
+								'& input': {
+									color: 'white',
+								},
+							}}
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={closeSendInvite}>Cancel</Button>
+						<Button onClick={handleInvite}>Submit</Button>
 					</DialogActions>
 				</Dialog>
 			</Box>
