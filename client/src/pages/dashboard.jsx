@@ -52,14 +52,14 @@ const Dashboard = () => {
 
 	const getReviews = async () => {
 		const res = await axios.get(
-			`https://prj400-esports.onrender.com/api/review/get_reviews/${user.userInfo.user._id}`
+			`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
 		);
 		setReviews(res.data);
 	};
 	const getEvents = async () => {
 		try {
 			const res = await axios.get(
-				`https://prj400-esports.onrender.com/api/event/${user.userInfo.team[0]._id}`,
+				`http://localhost:5000/api/event/${user.userInfo.team[0]._id}`,
 				{
 					headers: { Authorization: token },
 				}

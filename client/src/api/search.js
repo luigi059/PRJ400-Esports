@@ -20,7 +20,7 @@ export default function SearchAPI() {
 		const getPlayers = async () => {
 			const token = localStorage.getItem('token');
 			const res = await axios.get(
-				`https://prj400-esports.onrender.com/api/search?${search}`,
+				`http://localhost:5000/api/search?${search}`,
 				{
 					headers: { Authorization: token },
 				}

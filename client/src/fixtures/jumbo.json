@@ -1,0 +1,26 @@
+[
+	{
+		"id": 1,
+		"title": "Build Connections",
+		"subTitle": "Put yourself out into the world of Dota E-Sports and build and maintain your connections",
+		"image": "/images/misc/home-2.jpg",
+		"alt": "Dota 2 Aegis",
+		"direction": "row"
+	},
+	{
+		"id": 2,
+		"title": "Discover New Players",
+		"subTitle": "Discover for that one missing player to take your team to the next level",
+		"image": "/images/misc/home-1.webp",
+		"alt": "Dota 2 Booth",
+		"direction": "row-reverse"
+	},
+	{
+		"id": 3,
+		"title": "Keep on Track",
+		"subTitle": "Your one stop hub when it comes to competitive and casual Dota",
+		"image": "/images/misc/home-3.jpg",
+		"alt": "Dota 2 Stadium",
+		"direction": "row"
+	}
+]

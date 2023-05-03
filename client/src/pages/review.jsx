@@ -25,7 +25,7 @@ function Review() {
 		if (!ownReview) {
 			try {
 				const res = await axios.get(
-					`https://prj400-esports.onrender.com/api/review/get_reviews/${user.userInfo.user._id}`
+					`http://localhost:5000/api/review/get_reviews/${user.userInfo.user._id}`
 				);
 				setReviews(res.data);
 			} catch (err) {
@@ -34,7 +34,7 @@ function Review() {
 		} else {
 			try {
 				const res = await axios.get(
-					'https://prj400-esports.onrender.com/api/review/my_reviews',
+					'http://localhost:5000/api/review/my_reviews',
 					{
 						headers: { Authorization: token },
 					}
@@ -62,13 +62,17 @@ function Review() {
 				) : (
 					<Title title="REVIEWS" subtitle="Reviews From Other Players" />
 				)}
-				<Box sx={{ minWidth: 120 }}>
+				<Box
+					sx={{
+						minWidth: 120,
+					}}
+				>
 					<FormControl fullWidth sx={{ color: theme.palette.neutral[0] }}>
 						<InputLabel
 							id="demo-simple-select-label"
-							sx={{ color: theme.palette.neutral[0] }}
+							sx={{ color: theme.palette.neutral[0], fontSize: '10px' }}
 						>
-							Age
+							Page
 						</InputLabel>
 						<Select
 							labelId="demo-simple-select-label"
@@ -76,7 +80,9 @@ function Review() {
 							value={ownReview}
 							label="Age"
 							onChange={handleChange}
-							sx={{ color: theme.palette.neutral[0] }}
+							sx={{
+								color: theme.palette.neutral[0],
+							}}
 						>
 							<MenuItem value={false}>Reviews From Other Players</MenuItem>
 							<MenuItem value={true}>Own Reviews</MenuItem>
@@ -92,6 +98,15 @@ function Review() {
 						p="1.5rem"
 						borderRadius="0.55rem"
 					>
+						<FlexBetween>
+							<Typography
+								marginBottom="1rem"
+								variant="h6"
+								sx={{ color: theme.palette.neutral[0] }}
+							>
+								Reviewing: {review.revieweeName}
+							</Typography>
+						</FlexBetween>
 						<FlexBetween>
 							<Box>
 								<Typography
@@ -155,13 +170,15 @@ function Review() {
 							<Typography variant="h5" sx={{ color: theme.palette.neutral[0] }}>
 								{review.content}
 							</Typography>
-							<Typography
-								marginTop="1rem"
-								variant="h6"
-								sx={{ color: theme.palette.neutral[0] }}
-							>
-								By: {review.reviewer}
-							</Typography>
+							{!ownReview && (
+								<Typography
+									marginTop="1rem"
+									variant="h6"
+									sx={{ color: theme.palette.neutral[0] }}
+								>
+									By: {review.reviewer}
+								</Typography>
+							)}
 						</Box>
 					</Box>
 				);

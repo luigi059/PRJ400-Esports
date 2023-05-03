@@ -4,6 +4,7 @@ const createReview = async (req, res) => {
 	try {
 		const {
 			reviewee,
+			revieweeName,
 			reviewer,
 			content,
 			leadership,
@@ -16,6 +17,7 @@ const createReview = async (req, res) => {
 		const newReview = new Review({
 			reviewerId: req.user.id,
 			reviewee,
+			revieweeName,
 			reviewer,
 			content,
 			leadership,
@@ -36,7 +38,9 @@ const createReview = async (req, res) => {
 const getReviews = async (req, res) => {
 	try {
 		const { revieweeId } = req.params;
-		const reviews = await Review.find({ reviewee: revieweeId });
+		const reviews = await Review.find({ reviewee: revieweeId }).sort({
+			createdAt: -1,
+		});
 		if (!reviews) return res.status(400).json({ msg: 'No Reviews Exist' });
 
 		res.json(reviews);
@@ -47,7 +51,9 @@ const getReviews = async (req, res) => {
 
 const getOwnReviews = async (req, res) => {
 	try {
-		const ownReviews = await Review.find({ reviewerId: req.user.id });
+		const ownReviews = await Review.find({ reviewerId: req.user.id }).sort({
+			createdAt: -1,
+		});
 		if (!ownReviews) return res.status(400).json({ msg: 'No Reviews Exist' });
 
 		res.json(ownReviews);

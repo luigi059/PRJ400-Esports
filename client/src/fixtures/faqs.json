@@ -1,0 +1,27 @@
+[
+	{
+		"id": 1,
+		"header": "What is the point of E-Sportify?",
+		"body": "The main goal of E-Sportify is to help create new and maintain connections between players in the world of Dota esports."
+	},
+	{
+		"id": 2,
+		"header": "How can I discover new players?",
+		"body": "Proceed into the 'search' page and search for new players with parameters to your liking or search for their game tag on the search bar at the top."
+	},
+	{
+		"id": 3,
+		"header": "How can I review players?",
+		"body": "Once you have found the player you want you can make a review by changing the page from 'main' to 'review' on the top right of the page."
+	},
+	{
+		"id": 4,
+		"header": "How do I send a message to a player?",
+		"body": "Proceed to the 'Inbox' page, create a new chat and invite a player by their game tag on the 'members' section."
+	},
+	{
+		"id": 5,
+		"header": "How do I invite a player to my team?",
+		"body": "Once you have found the player you want you can send an invite on their profile page."
+	}
+]

@@ -1,7 +1,10 @@
 import React from 'react';
-import { Feature, OptForm } from '../components';
+import { Center, Feature, OptForm } from '../components';
 import * as ROUTES from '../constants/routes';
+import FaqsContainer from '../containers/faqs';
+import FooterContainer from '../containers/footer';
 import HeaderContainer from '../containers/header';
+import JumbotronContainer from '../containers/jumbotron';
 
 export default function Home() {
 	return (
@@ -19,6 +22,11 @@ export default function Home() {
 					</OptForm>
 				</Feature>
 			</HeaderContainer>
+			<Center>
+				<JumbotronContainer />
+			</Center>
+			<FaqsContainer />
+			<FooterContainer />
 		</>
 	);
 }

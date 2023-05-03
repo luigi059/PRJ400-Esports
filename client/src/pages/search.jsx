@@ -163,6 +163,9 @@ function Search() {
 								fontSize: '14px',
 								fontWeight: 'bold',
 								padding: '10px 20px',
+								'&:hover': {
+									backgroundColor: theme.palette.secondary[400],
+								},
 							}}
 						>
 							Add Parameters
@@ -175,6 +178,9 @@ function Search() {
 									fontSize: '14px',
 									fontWeight: 'bold',
 									padding: '10px 20px',
+									'&:hover': {
+										backgroundColor: theme.palette.secondary[400],
+									},
 								}}
 								onClick={handleSearch}
 							>
@@ -188,6 +194,14 @@ function Search() {
 							onClose={handleClose}
 							MenuListProps={{
 								'aria-labelledby': 'basic-button',
+							}}
+							sx={{
+								'& .MuiPaper-root': {
+									backgroundColor: theme.palette.primary[400],
+								},
+								'& .MuiMenuItem-root': {
+									color: 'white',
+								},
 							}}
 						>
 							<MenuItem onClick={() => addParams(1)}>Name</MenuItem>

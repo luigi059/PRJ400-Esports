@@ -1,12 +1,6 @@
-import {
-	ChatBubbleOutlineOutlined,
-	DeleteOutlined,
-	FavoriteBorderOutlined,
-} from '@mui/icons-material';
-import { Box, Divider, IconButton, Typography, useTheme } from '@mui/material';
+import { DeleteOutlined } from '@mui/icons-material';
+import { Box, Divider, Typography, useTheme } from '@mui/material';
 import axios from 'axios';
-import { useState } from 'react';
-import profileImage from '../../images/miracle.jfif';
 import FlexBetween from '../flexbetween';
 
 const Post = ({
@@ -26,12 +20,9 @@ const Post = ({
 	const token = localStorage.getItem('token');
 
 	const handleDelete = () => {
-		axios.delete(
-			`https://prj400-esports.onrender.com/api/post/delete/${postId}`,
-			{
-				headers: { Authorization: token },
-			}
-		);
+		axios.delete(`http://localhost:5000/api/post/delete/${postId}`, {
+			headers: { Authorization: token },
+		});
 		window.location.reload(false);
 	};
 
@@ -53,7 +44,7 @@ const Post = ({
 							width="55px"
 							height="55px"
 							alt="user"
-							src={profileImage}
+							src={userPicturePath}
 						/>
 					</Box>
 					<Box>

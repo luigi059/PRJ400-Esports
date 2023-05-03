@@ -148,7 +148,9 @@ const getUser = async (req, res) => {
 		var ageDate = new Date(today - date);
 		user.dob = parseInt(Math.abs(ageDate.getUTCFullYear() - 1970));
 
-		const posts = await Post.find({ userId: req.user.id });
+		const posts = await Post.find({ userId: req.user.id }).sort({
+			createdAt: -1,
+		});
 		if (user.teamId !== null) {
 			const team = await Team.find({ _id: user.teamId });
 			const userInfo = {

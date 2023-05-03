@@ -18,12 +18,9 @@ export default function SignIn() {
 	const handleSignin = async (event) => {
 		event.preventDefault();
 		try {
-			const res = axios.post(
-				'https://prj400-esports.onrender.com/api/user/login',
-				{
-					...user,
-				}
-			);
+			const res = axios.post('http://localhost:5000/api/user/login', {
+				...user,
+			});
 
 			localStorage.setItem('token', (await res).data.accessToken);
 

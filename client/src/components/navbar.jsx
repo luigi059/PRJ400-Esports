@@ -2,7 +2,6 @@ import {
 	ArrowDropDownOutlined,
 	Menu as MenuIcon,
 	Search,
-	SettingsOutlined,
 } from '@mui/icons-material';
 import {
 	AppBar,
@@ -43,7 +42,9 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 	const handleClick = (event) => setAnchorEl(event.currentTarget);
 	const handleClose = async () => {
 		setAnchorEl(null);
-		await axios.get('https://prj400-esports.onrender.com/api/user/logout');
+	};
+	const logout = async () => {
+		await axios.get('http://localhost:5000/api/user/logout');
 		localStorage.removeItem('token');
 		window.location.href = '/';
 	};
@@ -110,12 +111,6 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
 				{/* RIGHT SIDE */}
 				<FlexBetween gap="1.5rem">
-					<IconButton>
-						<SettingsOutlined
-							sx={{ color: theme.palette.secondary[300], fontSize: '25px' }}
-						/>
-					</IconButton>
-
 					<FlexBetween>
 						<Button
 							onClick={handleClick}
@@ -156,8 +151,16 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 							open={isOpen}
 							onClose={handleClose}
 							anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+							sx={{
+								'& .MuiPaper-root': {
+									backgroundColor: theme.palette.primary[400],
+								},
+								'& .MuiMenuItem-root': {
+									color: 'white',
+								},
+							}}
 						>
-							<MenuItem onClick={handleClose}>Log Out</MenuItem>
+							<MenuItem onClick={logout}>Log Out</MenuItem>
 						</Menu>
 					</FlexBetween>
 				</FlexBetween>

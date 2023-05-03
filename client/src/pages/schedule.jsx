@@ -1,4 +1,4 @@
-import { Delete } from '@mui/icons-material';
+import { DeleteOutlined } from '@mui/icons-material';
 import {
 	Box,
 	Button,
@@ -42,6 +42,7 @@ function Schedule() {
 	const [eventId, setEventId] = useState('');
 	const [isCreating, setIsCreating] = useState(true);
 	const [haveTeam, setHaveTeam] = useState(false);
+	const medium = theme.palette.secondary.main;
 
 	useEffect(() => {
 		if (user.userInfo) {
@@ -54,7 +55,7 @@ function Schedule() {
 			getEvents();
 			setIsLoading(false);
 		}
-	}, []);
+	}, [user]);
 	useEffect(() => {
 		if (events) {
 			setIsLoading(false);
@@ -95,21 +96,26 @@ function Schedule() {
 	const closeCreateEvent = () => {
 		setOpenCreateEvent(false);
 	};
-	const deleteEvent = () => {
-		axios.delete(
-			`https://prj400-esports.onrender.com/api/event/delete/${eventId}`,
+	const deleteEvent = async () => {
+		const res = await axios.delete(
+			`http://localhost:5000/api/event/delete/${eventId}`,
 			{
 				headers: { Authorization: token },
 			}
 		);
 		setOpenCreateEvent(false);
-		window.location.reload(false);
+		setIsLoading(true);
+		res.data.forEach((el) => {
+			el.start = new Date(el.start);
+			el.end = new Date(el.end);
+		});
+		setEvents(res.data);
 	};
 
 	const getEvents = async () => {
 		try {
 			const res = await axios.get(
-				`https://prj400-esports.onrender.com/api/event/${user.userInfo.team[0]._id}`,
+				`http://localhost:5000/api/event/${user.userInfo.team[0]._id}`,
 				{
 					headers: { Authorization: token },
 				}
@@ -124,33 +130,46 @@ function Schedule() {
 		}
 	};
 
-	const onSubmit = () => {
+	const onSubmit = async () => {
 		const event = {
 			title: title,
 			start: startDate,
 			end: endDate,
 			description: description,
+			teamId: user.userInfo.team[0]._id,
 		};
 
 		if (isCreating) {
-			axios.post(
-				'https://prj400-esports.onrender.com/api/event/create',
+			const res = await axios.post(
+				'http://localhost:5000/api/event/create',
 				{
 					...event,
 				},
 				{ headers: { Authorization: token } }
 			);
+			setOpenCreateEvent(false);
+			setIsLoading(true);
+			res.data.forEach((el) => {
+				el.start = new Date(el.start);
+				el.end = new Date(el.end);
+			});
+			setEvents(res.data);
 		} else {
-			axios.put(
-				`https://prj400-esports.onrender.com/api/event/update/${eventId}`,
+			const res = await axios.put(
+				`http://localhost:5000/api/event/update/${eventId}`,
 				{
 					...event,
 				},
 				{ headers: { Authorization: token } }
 			);
+			setOpenCreateEvent(false);
+			setIsLoading(true);
+			res.data.forEach((el) => {
+				el.start = new Date(el.start);
+				el.end = new Date(el.end);
+			});
+			setEvents(res.data);
 		}
-		setOpenCreateEvent(false);
-		window.location.reload(false);
 	};
 
 	return isLoading ? (
@@ -169,6 +188,9 @@ function Schedule() {
 									fontSize: '14px',
 									fontWeight: 'bold',
 									padding: '10px 20px',
+									'&:hover': {
+										backgroundColor: theme.palette.secondary[400],
+									},
 								}}
 								onClick={createEvent}
 							>
@@ -221,22 +243,29 @@ function Schedule() {
 							sx={{
 								'& .MuiDialog-container': {
 									'& .MuiPaper-root': {
+										backgroundColor: theme.palette.background.alt,
 										height: '100%',
 										maxHeight: '400px',
 										width: '100%',
 										maxWidth: '700px',
+									},
+									'& .MuiButtonBase-root': {
+										color: 'white',
+										'&:hover': {
+											backgroundColor: theme.palette.primary[400],
+										},
 									},
 								},
 							}}
 						>
 							<FlexBetween>
 								{isCreating ? (
-									<DialogTitle>Create Event</DialogTitle>
+									<DialogTitle color={`${medium}`}>Create Event</DialogTitle>
 								) : (
-									<DialogTitle>Modify Event</DialogTitle>
+									<DialogTitle color={`${medium}`}>Modify Event</DialogTitle>
 								)}
 								{!isCreating && (
-									<Delete
+									<DeleteOutlined
 										onClick={() => deleteEvent()}
 										sx={{
 											margin: '5px',
@@ -259,31 +288,79 @@ function Schedule() {
 									onChange={(e) => {
 										setTitle(e.target.value);
 									}}
+									sx={{
+										'& label': {
+											color: 'white',
+										},
+										'& input': {
+											color: 'white',
+										},
+									}}
 								/>
-								<FormLabel>Start Date</FormLabel>
-								<DatePicker
-									placeholderText="Select date"
-									onChange={(date) => setStartDate(date)}
-									selected={startDate}
-									value={startDate}
-									showTimeSelect
-									timeFormat="HH:mm"
-									dateFormat="d MMMM, yyyy HH:mm"
-									className="form-control"
-									id="start"
-								/>
-								<FormLabel>End Date</FormLabel>
-								<DatePicker
-									placeholderText="Select End date"
-									onChange={(date) => setEndDate(date)}
-									selected={endDate}
-									value={endDate}
-									timeFormat="HH:mm"
-									dateFormat="d MMMM, yyyy HH:mm"
-									showTimeSelect
-									className="form-control"
-									id="end"
-								/>
+								<FormLabel
+									sx={{
+										color: 'white',
+									}}
+								>
+									Start Date
+								</FormLabel>
+								<Box
+									sx={{
+										'& .react-datepicker__input-container ': {
+											'& input': {
+												backgroundColor: theme.palette.primary[600],
+												borderRadius: '5px',
+												border: '1px solid black',
+												color: 'white',
+												height: '3em',
+											},
+										},
+									}}
+								>
+									<DatePicker
+										placeholderText="Select date"
+										onChange={(date) => setStartDate(date)}
+										selected={startDate}
+										value={startDate}
+										showTimeSelect
+										timeFormat="HH:mm"
+										dateFormat="d MMMM, yyyy HH:mm"
+										className="form-control"
+										id="start"
+									/>
+								</Box>
+								<FormLabel
+									sx={{
+										color: 'white',
+									}}
+								>
+									End Date
+								</FormLabel>
+								<Box
+									sx={{
+										'& .react-datepicker__input-container ': {
+											'& input': {
+												backgroundColor: theme.palette.primary[600],
+												borderRadius: '5px',
+												border: '1px solid black',
+												color: 'white',
+												height: '3em',
+											},
+										},
+									}}
+								>
+									<DatePicker
+										placeholderText="Select End date"
+										onChange={(date) => setEndDate(date)}
+										selected={endDate}
+										value={endDate}
+										timeFormat="HH:mm"
+										dateFormat="d MMMM, yyyy HH:mm"
+										showTimeSelect
+										className="form-control"
+										id="end"
+									/>
+								</Box>
 								<TextField
 									autoFocus
 									margin="dense"
@@ -295,6 +372,14 @@ function Schedule() {
 									variant="standard"
 									onChange={(e) => {
 										setDescription(e.target.value);
+									}}
+									sx={{
+										'& label': {
+											color: 'white',
+										},
+										'& input': {
+											color: 'white',
+										},
 									}}
 								/>
 							</DialogContent>

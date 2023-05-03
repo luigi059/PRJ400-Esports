@@ -4,7 +4,6 @@ export const Container = styled.div`
 	height: calc(100vh - 8em);
 	display: flex;
 	flex-direction: column;
-	border-bottom: 8px solid #222;
 	text-align: center;
 	padding: 10rem 2rem;
 `;

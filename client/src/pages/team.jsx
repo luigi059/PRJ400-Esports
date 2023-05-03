@@ -77,7 +77,7 @@ function Team() {
 
 	const getPlayers = async () => {
 		const res = await axios.get(
-			`https://prj400-esports.onrender.com/api/team/${user.userInfo.user.teamId}`,
+			`http://localhost:5000/api/team/${user.userInfo.user.teamId}`,
 			{
 				headers: { Authorization: token },
 			}
@@ -106,7 +106,7 @@ function Team() {
 
 	const handleLeave = async () => {
 		const response = await axios.patch(
-			`https://prj400-esports.onrender.com/api/team/leave/${user.userInfo.user._id}`,
+			`http://localhost:5000/api/team/leave/${user.userInfo.user._id}`,
 			{
 				headers: {
 					'Content-Type': 'multipart/form-data',
@@ -118,7 +118,7 @@ function Team() {
 			if (refreshData) setRefreshData(false);
 			else setRefreshData(true);
 			setIsLoading(true);
-			setOpenCreateTeam(false);
+			setOpenLeaveTeam(false);
 		}
 	};
 
@@ -130,7 +130,7 @@ function Team() {
 		}
 
 		const response = await axios.post(
-			'https://prj400-esports.onrender.com/api/team/create',
+			'http://localhost:5000/api/team/create',
 			formData,
 			{
 				headers: {
@@ -141,7 +141,7 @@ function Team() {
 		);
 		if (response) {
 			if (refreshData) setRefreshData(false);
-			else setRefreshData(true);
+			if (!refreshData) setRefreshData(true);
 			setIsLoading(true);
 			setOpenCreateTeam(false);
 		}
@@ -185,6 +185,9 @@ function Team() {
 									fontSize: '14px',
 									fontWeight: 'bold',
 									padding: '10px 20px',
+									'&:hover': {
+										backgroundColor: theme.palette.secondary[400],
+									},
 								}}
 								onClick={leaveTeam}
 							>
@@ -252,6 +255,7 @@ function Team() {
 							sx={{
 								'& .MuiDialog-container': {
 									'& .MuiPaper-root': {
+										backgroundColor: theme.palette.background.alt,
 										height: '100%',
 										maxHeight: '150px',
 										width: '100%',
@@ -268,7 +272,7 @@ function Team() {
 										margin: '1rem',
 									}}
 								>
-									<Typography variant="h3">
+									<Typography variant="h3" color="white">
 										Are you sure you want to leave this team?
 									</Typography>
 								</Box>

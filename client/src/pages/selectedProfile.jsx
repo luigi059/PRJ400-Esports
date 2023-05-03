@@ -43,15 +43,17 @@ function SelectedProfile() {
 	const token = localStorage.getItem('token');
 	const secondary = theme.palette.secondary[100];
 	const [haveTeam, setHaveTeam] = useState(false);
+	const medium = theme.palette.secondary.main;
 
 	const getInfo = async () => {
 		try {
 			const res = await axios.get(
-				`https://prj400-esports.onrender.com/api/user/info/${params.id}`,
+				`http://localhost:5000/api/user/info/${params.id}`,
 				{
 					headers: { Authorization: token },
 				}
 			);
+			console.log(res.data.userInfo);
 			setPlayer(res.data.userInfo);
 		} catch (err) {
 			alert(err.response.data.msg);
@@ -61,7 +63,7 @@ function SelectedProfile() {
 	const getReviews = async () => {
 		try {
 			const res = await axios.get(
-				`https://prj400-esports.onrender.com/api/review/get_reviews/${params.id}`
+				`http://localhost:5000/api/review/get_reviews/${params.id}`
 			);
 			setReviews(res.data);
 		} catch (err) {
@@ -72,7 +74,7 @@ function SelectedProfile() {
 	const getPosts = async () => {
 		try {
 			const res = await axios.get(
-				`https://prj400-esports.onrender.com/api/post/get/${params.id}`,
+				`http://localhost:5000/api/post/get/${params.id}`,
 				{
 					headers: { Authorization: token },
 				}
@@ -131,6 +133,7 @@ function SelectedProfile() {
 	const submitReview = () => {
 		const newReview = {
 			reviewee: player.user._id,
+			revieweeName: player.user.username,
 			reviewer: user.userInfo.user.username,
 			content: reviewContent,
 			leadership: parseInt(leadership),
@@ -142,7 +145,7 @@ function SelectedProfile() {
 		};
 		try {
 			axios.post(
-				'https://prj400-esports.onrender.com/api/review/create',
+				'http://localhost:5000/api/review/create',
 				{
 					...newReview,
 				},
@@ -188,6 +191,9 @@ function SelectedProfile() {
 									fontSize: '14px',
 									fontWeight: 'bold',
 									padding: '10px 20px',
+									'&:hover': {
+										backgroundColor: theme.palette.secondary[400],
+									},
 								}}
 								onClick={createReview}
 							>
@@ -208,6 +214,9 @@ function SelectedProfile() {
 							fontSize: '14px',
 							fontWeight: 'bold',
 							padding: '10px 20px',
+							'&:hover': {
+								backgroundColor: theme.palette.secondary[400],
+							},
 						}}
 					>
 						{page}
@@ -219,6 +228,14 @@ function SelectedProfile() {
 						onClose={handleClose}
 						MenuListProps={{
 							'aria-labelledby': 'basic-button',
+						}}
+						sx={{
+							'& .MuiPaper-root': {
+								backgroundColor: theme.palette.primary[400],
+							},
+							'& .MuiMenuItem-root': {
+								color: 'white',
+							},
 						}}
 					>
 						<MenuItem onClick={goToMain}>Main</MenuItem>
@@ -755,18 +772,25 @@ function SelectedProfile() {
 					sx={{
 						'& .MuiDialog-container': {
 							'& .MuiPaper-root': {
+								backgroundColor: theme.palette.background.alt,
 								width: '100%',
 								maxWidth: '700px',
+							},
+							'& .MuiButtonBase-root': {
+								color: 'white',
+								'&:hover': {
+									backgroundColor: theme.palette.primary[400],
+								},
 							},
 						},
 					}}
 				>
-					<DialogTitle>Create Review</DialogTitle>
+					<DialogTitle color={`${medium}`}>Create Review</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
 							<Stack direction="row" spacing={1}>
 								<Box>
-									<Typography>Leadership</Typography>
+									<Typography sx={{ color: 'white' }}>Leadership</Typography>
 									<Rating
 										name="leadership"
 										defaultValue={0}
@@ -777,7 +801,7 @@ function SelectedProfile() {
 									/>
 								</Box>
 								<Box>
-									<Typography>Drafting</Typography>
+									<Typography sx={{ color: 'white' }}>Drafting</Typography>
 									<Rating
 										name="drafting"
 										defaultValue={0}
@@ -788,7 +812,7 @@ function SelectedProfile() {
 									/>
 								</Box>
 								<Box>
-									<Typography>Knowledge</Typography>
+									<Typography sx={{ color: 'white' }}>Knowledge</Typography>
 									<Rating
 										name="knowledge"
 										defaultValue={0}
@@ -799,7 +823,7 @@ function SelectedProfile() {
 									/>
 								</Box>
 								<Box>
-									<Typography>Versatility</Typography>
+									<Typography sx={{ color: 'white' }}>Versatility</Typography>
 									<Rating
 										name="versatility"
 										defaultValue={0}
@@ -810,7 +834,7 @@ function SelectedProfile() {
 									/>
 								</Box>
 								<Box>
-									<Typography>Technical</Typography>
+									<Typography sx={{ color: 'white' }}>Technical</Typography>
 									<Rating
 										name="technical"
 										defaultValue={0}
@@ -821,7 +845,7 @@ function SelectedProfile() {
 									/>
 								</Box>
 								<Box>
-									<Typography>Farming</Typography>
+									<Typography sx={{ color: 'white' }}>Farming</Typography>
 									<Rating
 										name="farming"
 										defaultValue={0}
@@ -843,6 +867,14 @@ function SelectedProfile() {
 							variant="standard"
 							onChange={(e) => {
 								setReviewContent(e.target.value);
+							}}
+							sx={{
+								'& label': {
+									color: 'white',
+								},
+								'& input': {
+									color: 'white',
+								},
 							}}
 						/>
 					</DialogContent>

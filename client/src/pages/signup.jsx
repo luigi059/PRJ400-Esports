@@ -48,11 +48,11 @@ export default function SignUp() {
 	});
 
 	const positions = [
-		'Postion 1',
-		'Postion 2',
-		'Postion 3',
-		'Postion 4',
-		'Postion 5',
+		'Position 1',
+		'Position 2',
+		'Position 3',
+		'Position 4',
+		'Position 5',
 	];
 
 	const onChangeInput = (e) => {
@@ -91,7 +91,7 @@ export default function SignUp() {
 		event.preventDefault();
 		try {
 			const res = await axios.post(
-				'https://prj400-esports.onrender.com/api/user/register',
+				'http://localhost:5000/api/user/register',
 				formData,
 				{
 					headers: {

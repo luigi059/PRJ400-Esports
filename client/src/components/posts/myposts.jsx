@@ -26,7 +26,6 @@ const MyPosts = () => {
 					name,
 					description,
 					picturePath,
-					userPicturePath,
 					likes,
 					comments,
 				}) => (
@@ -38,7 +37,7 @@ const MyPosts = () => {
 						name={name}
 						description={description}
 						picturePath={picturePath}
-						userPicturePath={userPicturePath}
+						userPicturePath={user.userInfo.user.picturePath}
 						likes={likes}
 						comments={comments}
 					/>
